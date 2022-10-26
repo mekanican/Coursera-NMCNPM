@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  mongodb_container:
+    image: mongo:latest
+    container_name: DB
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: NMCNPM-2022
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+  webapp:
+    image: "node:alpine"
+    user: "root"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development 
+                #production
+      - PORT=20222
+      - MONGO_USERNAME=root
+      - MONGO_PASSWORD=NMCNPM-2022
+    volumes:
+      - ./webapp:/home/node/app
+      - node_modules_container:/home/node/app/node_modules
+    ports:
+      - 20222:20222
+    command: ash -c "npm install --save&&npm start"
+    depends_on: 
+      - mongodb_container
+
+
+volumes:
+  mongodb_data_container:
+  node_modules_container:
