@@ -7,7 +7,7 @@ const MONGO_PASSWORD = process.env.MONGO_PASSWORD
 
 // Todo: mongodb setup
 
-app.use('/', express.static('public/homepage'))
+app.use('/', express.static('public'))
 
 // Example : /API?a=123&b=456
 app.get('/API', (req, res) => {
