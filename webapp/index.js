@@ -88,6 +88,14 @@ app.get('/API', (req, res) => {
     res.json({success : true})
 })
 
+const converter = require('./API/ffmpeg_mp4_hls').converter;
+
+app.get('/convert', (req, res) => {
+    converter('Excαlibur.mp4'); // Kiem tra kha nang chiu dung UTF 8 :)
+    // Should be async ?
+    res.redirect('/all-courses')
+})
+
 app.listen(PORT, () => {
     console.log(`App currently running on localhost:${PORT}`)
 })
