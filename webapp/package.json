@@ -10,13 +10,16 @@
   "author": "Nghia~ & friends",
   "license": "ISC",
   "dependencies": {
-    "nodemon": "*",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.0",
+    "nodemon": "*",
     "npm": "^8.19.2",
+    "passport": "^0.6.0",
+    "passport-google-oauth": "^2.0.0",
     "start": "^5.1.0"
   }
 }
