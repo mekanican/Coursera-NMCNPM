@@ -107,7 +107,7 @@ dotenv.config();
 process.env.TOKEN_SECRET;
 }
 function generateAccessToken(username) {
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '7200s' });
+  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1d' });
 }
 //generageTokenSecret ();
 //Tao Token moi khi tao nguoi dung hoac khi nhan duoc request login
