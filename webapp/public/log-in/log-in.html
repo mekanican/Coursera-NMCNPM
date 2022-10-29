@@ -41,13 +41,14 @@
         <div class="row">
           <div class="col-md-6">
             <div class="myLeftCard">
-              <form class="myForm text-center">
+              <form class="myForm text-center" action="/api/login" method="POST">
                 <header>
                   <h2>Log in</h2>
                 </header>
                 <div class="form-group">
                   <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                   <input
+					name="username"
                     class="myInput"
                     type="text"
                     placeholder="Username"
@@ -60,6 +61,7 @@
                 <div class="form-group">
                   <i class="fa fa-envelope-open" aria-hidden="true"></i>
                   <input
+					name="email"
                     type="text"
                     class="myInput"
                     placeholder="Email"
