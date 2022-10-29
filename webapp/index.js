@@ -77,9 +77,10 @@ app.get('/auth/google/callback',
 //     }
 // });
 
+
 //JWT
 const jwt = require('jsonwebtoken');
-
+const path = require('path');
 const dotenv = require('dotenv');
 var bodyParser = require('body-parser');
 
@@ -120,7 +121,9 @@ app.post('/api/login', (req, res) => {
   
    console.log(req.body);
    //res.json(req.body);
+   
    res.json(token);
+   //res.sendFile(path.join(__dirname + '/public/homepage/index.html'))
 });
 
 //Verify token hien tai co ton tai khong
@@ -147,6 +150,8 @@ app.get('/api/userOrders', authenticateToken, (req, res) => {
   // executes after authenticateToken
   // ...
 })
+
+//HET JWT
 
 
 

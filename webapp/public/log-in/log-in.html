@@ -9,6 +9,9 @@
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous"
     />
+	<!-- JQUERY --> 
+	<script src="../jquery-3.6.1.min.js"></script>
+	<script src="js.js"></script>
     <!-- JavaScript Bundle with Popper -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
@@ -41,7 +44,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="myLeftCard">
-              <form class="myForm text-center" action="/api/login" method="POST">
+              <form name="my-form" class="myForm text-center" id = "loginform" action="/api/login" method="post">
                 <header>
                   <h2>Log in</h2>
                 </header>
@@ -70,7 +73,7 @@
                   />
                 </div>
                 <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google"></span> SignIn with Google</a>
-                <input type="submit" class="btn" value="Log in" />
+                <input type="submit" class="btn" id="summitbutton" value="Log in" />
               </form>
               <p class="text-center end">
                 <small>Already have an account? <a href="">Sign up</a></small>
