@@ -7,75 +7,34 @@ const MONGO_PASSWORD = process.env.MONGO_PASSWORD
 
 // Session setup
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser())
 app.use(session({
     resave: false,
     saveUninitialized: true,
-    secret: 'SECRET' // Change later!
+    secret: 'Long time in human life, Fate is so bad for nice people. Go through such difficult, I saw and had struggle feelings.'
+    // Hyper secure btw!
 }));
 
-// Passport setup
-
-const passport = require('passport');
-var userProfile;
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.get('/success', (req, res) => res.send(userProfile));
-app.get('/error', (req, res) => res.send("error logging in"));
-
-passport.serializeUser(function(user, cb) {
-    cb(null, user);
-});
-
-passport.deserializeUser(function(obj, cb) {
-    cb(null, obj);
-});
-
-// Google AUTH
-
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const GOOGLE_CLIENT_ID = '638129714576-tj4n4jo44t26j0q7043gd8k7n3046vnp.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
-
-passport.use(new GoogleStrategy({
-        clientID: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:20222/auth/google/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
-        userProfile=profile;
-        return done(null, userProfile);
-    }
-));
-
-app.get('/auth/google', 
-    passport.authenticate('google', { scope : ['profile', 'email'] }));
-
-app.get('/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/error' }),
-    function(req, res) {
-    // Successful authentication, redirect success.
-    res.redirect('/success');
-});
+require('./API/google_oauth2')(app);
 
 
 // mongodb setup
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 
-// // Connect MongoDB at default port 27017.
-// mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_container:27017/test`, {
-//     useNewUrlParser: true,
-//     //useCreateIndex: true,
-// }, (err) => {
-//     if (!err) {
-//         console.log('MongoDB Connection Succeeded.')
-//     } else {
-//         console.log('Error in DB connection: ' + err)
-//     }
-// });
+// Connect MongoDB at default port 27017.
+mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_container:27017/test`, {
+    useNewUrlParser: true,
+    //useCreateIndex: true,
+}, (err) => {
+    if (!err) {
+        console.log('MongoDB Connection Succeeded.')
+    } else {
+        console.log('Error in DB connection: ' + err)
+    }
+});
 
 
 //JWT
@@ -174,14 +133,13 @@ app.use('/', express.static('public'))
 // Example : /API?a=123&b=456
 app.get('/API', (req, res) => {
     console.log(`Get ${[req.query.a, req.query.b]}`)
-    res.json({success : true})
+    res.json({ success: true })
 })
 
 const converter = require('./API/ffmpeg_mp4_hls').converter;
 
 app.get('/convert', (req, res) => {
-    converter('Excαlibur.mp4'); // Kiem tra kha nang chiu dung UTF 8 :)
-    // Should be async ?
+    converter('Excαlibur.mp4');
     res.redirect('/all-courses')
 })
 
