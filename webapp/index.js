@@ -82,10 +82,12 @@ app.get('/auth/google/callback',
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const dotenv = require('dotenv');
+const cookieParser = require("cookie-parser");
 var bodyParser = require('body-parser');
 
 //app.use(express.urlencoded());
 app.use(express.json()); // support json encoded bodies
+app.use(cookieParser());
 app.use(express.urlencoded({
     extended: true
 }))
@@ -102,9 +104,9 @@ function loadTokenSecret ()
 {
 	const dotenv = require('dotenv');
 	// get config vars
-dotenv.config();
+	dotenv.config();
 	// access config var
-process.env.TOKEN_SECRET;
+	process.env.TOKEN_SECRET;
 }
 function generateAccessToken(username) {
   return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1d' });
@@ -124,38 +126,42 @@ app.post('/api/createNewUser', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
+	if (req.body.username != "za")
+	{
+		res.status(403).json({ message: "Wrong account or password" });
+		return;
+	}		
+	
    const token = generateAccessToken({ username: req.body.username });
-  
-   console.log('/api/login');
-   console.log(req.body);
-   //res.json(req.body);
-   
-   res.json(token);
-   //res.sendFile(path.join(__dirname + '/public/homepage/index.html'))
+   //console.log(req.body);
+    res.cookie("access_token", token, {
+      httpOnly: true//,
+      //secure: process.env.NODE_ENV === "production",
+    })
+    .status(200)
+    .json({ message: "Logged in successfully 😊 👌" });
 });
 
 //Verify token hien tai co ton tai khong
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
+const authorization = (req, res, next) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.sendStatus(403);
+  }
+  try {
+    const data = jwt.verify(token, "YOUR_SECRET_KEY");
+    req.username = data.username;
+    //req.userRole = data.role;
+    return next();
+  } catch {
+    return res.sendStatus(403);
+  }
+};
 
-  if (token == null) return res.sendStatus(401)
-
-  //jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    console.log(err)
-
-    if (err) return res.sendStatus(403)
-
-    req.user = user
-
-    next()
-  })
-}
 //Nhan duoc request nao do, kiem tra token truoc khi thuc hien.
-app.get('/api/userOrders', authenticateToken, (req, res) => {
-  // executes after authenticateToken
+app.get('/api/userOrders', authorization, (req, res) => {
+  // executes after authorization
   // ...
 })
 
