@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-
 const PORT = process.env.PORT || 12345
 const MONGO_USERNAME = process.env.MONGO_USERNAME
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD
@@ -77,6 +76,96 @@ app.get('/auth/google/callback',
 //         console.log('Error in DB connection: ' + err)
 //     }
 // });
+
+
+//JWT
+const jwt = require('jsonwebtoken');
+const path = require('path');
+const dotenv = require('dotenv');
+const cookieParser = require("cookie-parser");
+var bodyParser = require('body-parser');
+
+//app.use(express.urlencoded());
+app.use(express.json()); // support json encoded bodies
+app.use(cookieParser());
+app.use(express.urlencoded({
+    extended: true
+}))
+//app.use(require('connect').bodyParser());
+dotenv.config();
+process.env.TOKEN_SECRET;
+//https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
+function generageTokenSecret ()
+{
+	console.log(require('crypto').randomBytes(64).toString('hex'))
+	//Save output vao file .env
+}
+function loadTokenSecret ()
+{
+	const dotenv = require('dotenv');
+	// get config vars
+	dotenv.config();
+	// access config var
+	process.env.TOKEN_SECRET;
+}
+function generateAccessToken(username) {
+  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1d' });
+}
+//generageTokenSecret ();
+//Tao Token moi khi tao nguoi dung hoac khi nhan duoc request login
+app.post('/api/createNewUser', (req, res) => {
+  const token = generateAccessToken({ username: req.body.username });
+  //res.json(token);
+  
+    res.cookie("access_token", token, {
+      httpOnly: true//,
+      //secure: process.env.NODE_ENV === "production",
+    })
+    .status(200)
+    .json({ message: "Logged in successfully 😊 👌" });
+});
+
+app.post('/api/login', (req, res) => {
+	if (req.body.username != "za")
+	{
+		res.status(403).json({ message: "Wrong account or password" });
+		return;
+	}		
+	
+   const token = generateAccessToken({ username: req.body.username });
+   //console.log(req.body);
+    res.cookie("access_token", token, {
+      httpOnly: true//,
+      //secure: process.env.NODE_ENV === "production",
+    })
+    .status(200)
+    .json({ message: "Logged in successfully 😊 👌" });
+});
+
+//Verify token hien tai co ton tai khong
+
+const authorization = (req, res, next) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.sendStatus(403);
+  }
+  try {
+    const data = jwt.verify(token, "YOUR_SECRET_KEY");
+    req.username = data.username;
+    //req.userRole = data.role;
+    return next();
+  } catch {
+    return res.sendStatus(403);
+  }
+};
+
+//Nhan duoc request nao do, kiem tra token truoc khi thuc hien.
+app.get('/api/userOrders', authorization, (req, res) => {
+  // executes after authorization
+  // ...
+})
+
+//HET JWT
 
 
 
