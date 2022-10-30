@@ -24,7 +24,6 @@ function readCookie(name) {
 var formData = new FormData(document.getElementsByName('my-form')[0]);
 $(function () {
     $('#loginform').on('submit',function (e) {
-			//alert("submitted");
               $.ajax({
 					type: "POST",
 					url: "/api/login",// where you wanna post

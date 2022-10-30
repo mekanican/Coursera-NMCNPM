@@ -113,12 +113,20 @@ function generateAccessToken(username) {
 //Tao Token moi khi tao nguoi dung hoac khi nhan duoc request login
 app.post('/api/createNewUser', (req, res) => {
   const token = generateAccessToken({ username: req.body.username });
-  res.json(token);
+  //res.json(token);
+  
+    res.cookie("access_token", token, {
+      httpOnly: true//,
+      //secure: process.env.NODE_ENV === "production",
+    })
+    .status(200)
+    .json({ message: "Logged in successfully 😊 👌" });
 });
 
 app.post('/api/login', (req, res) => {
    const token = generateAccessToken({ username: req.body.username });
   
+   console.log('/api/login');
    console.log(req.body);
    //res.json(req.body);
    
