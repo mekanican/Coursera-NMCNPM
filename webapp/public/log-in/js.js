@@ -21,13 +21,18 @@ function readCookie(name) {
 }
 
 
-var formData = new FormData(document.getElementsByName('my-form')[0]);
+/*var formData;
 $(function () {
     $('#loginform').on('submit',function (e) {
+			formData = new FormData(document.getElementsByName('my-form')[0]);
+			for (const value of formData.values()) {
+			  console.log(value);
+			}
               $.ajax({
+				  enctype: "multipart/form-data",
 					type: "POST",
 					url: "/api/login",// where you wanna post
-					data: formData,
+					data: formData,//.serialize(),
 					processData: false,
 					contentType: false,
 					error: function(jqXHR, textStatus, errorMessage) {
@@ -41,4 +46,31 @@ $(function () {
 				});
           e.preventDefault(); //Prevent page from loading url
         });
+});*/
+
+
+var formData;
+$(function () {
+    $('#loginform').on('submit',function (e) {
+			formData = new FormData(document.getElementsByName('my-form')[0]);
+			for (const value of formData.values()) {
+			  console.log(value);
+			}
+              $.ajax({
+				  //enctype: "multipart/form-data",
+					type: "POST",
+					url: "/api/createNewUser",//"/api/login",// where you wanna post
+					data: $('#loginform').serialize(),
+					error: function(jqXHR, textStatus, errorMessage) {
+						console.log(errorMessage); // Optional
+					},
+					success: function(data) 
+					{
+						console.log(data);
+						//createCookie("JWT", data, 1);
+					} 
+				});
+          e.preventDefault(); //Prevent page from loading url
+        });
 });
+
