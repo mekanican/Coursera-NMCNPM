@@ -4,19 +4,16 @@ const PORT = process.env.PORT || 12345
 const MONGO_USERNAME = process.env.MONGO_USERNAME
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD
 
+app.set("view engine", "ejs")
 
 // Session setup
-const session = require('express-session');
+// const session = require('express-session');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser())
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: 'Long time in human life, Fate is so bad for nice people. Go through such difficult, I saw and had struggle feelings.'
-    // Hyper secure btw!
-}));
 
-require('./API/google_oauth2')(app);
+process.env.TOKEN_SECRET = 'Long time in human life, Fate is so bad for nice people. Go through such difficult, I saw and had struggle feelings.'
+
+// require('./API/google_oauth2')(app);
 
 
 // mongodb setup
@@ -31,6 +28,9 @@ mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_containe
 }, (err) => {
     if (!err) {
         console.log('MongoDB Connection Succeeded.')
+        // create temp user
+        if (false) require('./controllers/temp_user.controller')
+            .createEmailName('notabotbytheway@gmail.com', 'CNPM');
     } else {
         console.log('Error in DB connection: ' + err)
     }
@@ -38,110 +38,39 @@ mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_containe
 
 
 //JWT
-const jwt = require('jsonwebtoken');
-const path = require('path');
-const dotenv = require('dotenv');
-const cookieParser = require("cookie-parser");
-var bodyParser = require('body-parser');
 
-//app.use(express.urlencoded());
 app.use(express.json()); // support json encoded bodies
-app.use(cookieParser());
-app.use(express.urlencoded({
-    extended: true
-}))
-//app.use(require('connect').bodyParser());
-dotenv.config();
-process.env.TOKEN_SECRET;
-//https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
-function generageTokenSecret ()
-{
-	console.log(require('crypto').randomBytes(64).toString('hex'))
-	//Save output vao file .env
-}
-function loadTokenSecret ()
-{
-	const dotenv = require('dotenv');
-	// get config vars
-	dotenv.config();
-	// access config var
-	process.env.TOKEN_SECRET;
-}
-function generateAccessToken(username) {
-  return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1d' });
-}
-//generageTokenSecret ();
-//Tao Token moi khi tao nguoi dung hoac khi nhan duoc request login
-app.post('/api/createNewUser', (req, res) => {
-  const token = generateAccessToken({ username: req.body.username });
-  //res.json(token);
-  
-    res.cookie("access_token", token, {
-      httpOnly: true//,
-      //secure: process.env.NODE_ENV === "production",
-    })
-    .status(200)
-    .json({ message: "Logged in successfully 😊 👌" });
-});
+app.use(express.urlencoded({ extended: true }))
 
-app.post('/api/login', (req, res) => {
-	if (req.body.username != "za")
-	{
-		res.status(403).json({ message: "Wrong account or password" });
-		return;
-	}		
-	
-   const token = generateAccessToken({ username: req.body.username });
-   //console.log(req.body);
-    res.cookie("access_token", token, {
-      httpOnly: true//,
-      //secure: process.env.NODE_ENV === "production",
-    })
-    .status(200)
-    .json({ message: "Logged in successfully 😊 👌" });
-});
+// process.env.TOKEN_SECRET;
 
-//Verify token hien tai co ton tai khong
 
-const authorization = (req, res, next) => {
-  const token = req.cookies.access_token;
-  if (!token) {
-    return res.sendStatus(403);
-  }
-  try {
-    const data = jwt.verify(token, "YOUR_SECRET_KEY");
-    req.username = data.username;
-    //req.userRole = data.role;
-    return next();
-  } catch {
-    return res.sendStatus(403);
-  }
-};
-
-//Nhan duoc request nao do, kiem tra token truoc khi thuc hien.
-app.get('/api/userOrders', authorization, (req, res) => {
-  // executes after authorization
-  // ...
-})
 
 //HET JWT
 
+// Secure video folder in public!
+// app.use((req, res, next) => {
+//     if (req.url.match(/^\/hls_videos\//)) {
+//         // Todo: checking things
+//     } else {
+//         next();
+//     }
+// })
 
-
-app.use('/', express.static('public'))
+// app.use('/', express.static('public'))
 
 // Example : /API?a=123&b=456
-app.get('/API', (req, res) => {
-    console.log(`Get ${[req.query.a, req.query.b]}`)
-    res.json({ success: true })
-})
+// app.get('/API', (req, res) => {
+//     console.log(`Get ${[req.query.a, req.query.b]}`)
+//     res.json({ success: true })
+// })
 
-const converter = require('./API/ffmpeg_mp4_hls').converter;
+app.use('/img', express.static('./public/img'))
 
-app.get('/convert', (req, res) => {
-    converter('Excαlibur.mp4');
-    res.redirect('/all-courses')
-})
+app.use(require('./routes/convert'));
+app.use(require('./routes/index'));
+app.use(require('./routes/login'));
+app.use(require('./routes/signup'));
 
 app.listen(PORT, () => {
     console.log(`App currently running on localhost:${PORT}`)

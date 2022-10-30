@@ -1,25 +1,29 @@
 const User = require('../models/temp_user');
 
 module.exports = {
-    getName: email => {
-        User.findOne({ email: email }, 'name').then((err, name) => {
+    getName: (email, callback) => {
+        User.findOne({ email: email }, 'name').then((name, err) => {
             if (err) {
                 console.log(err)
-                return null
+                callback(null);
             }
             if (!name) {
-                return null
+                callback(null);
             } else {
-                return name
+                callback(name);
             }
         })
     },
-    createEmailName: (email, name) => {
+    createEmailName: (email, name, callback) => {
         User.create({
             email: email,
             name: name
         }).then(err => {
-            console.log(err)
+            if (!err) {
+                callback(null);
+            } else {
+                callback(email, name);
+            }
         })
     }
 }
