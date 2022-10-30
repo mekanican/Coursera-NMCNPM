@@ -150,18 +150,22 @@ const authorization = (req, res, next) => {
     return res.sendStatus(403);
   }
   try {
-    const data = jwt.verify(token, "YOUR_SECRET_KEY");
+    const data = jwt.verify(token, process.env.TOKEN_SECRET);
     req.username = data.username;
+	console.log ("USERNAME: ");
+	console.log(data.username);
     //req.userRole = data.role;
     return next();
   } catch {
+	console.log ("Login failed");
     return res.sendStatus(403);
   }
 };
 
 //Nhan duoc request nao do, kiem tra token truoc khi thuc hien.
-app.get('/api/userOrders', authorization, (req, res) => {
+app.post('/api/testt', authorization, (req, res) => {
   // executes after authorization
+  res.json({ message: "test JWT" });
   // ...
 })
 

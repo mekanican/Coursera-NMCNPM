@@ -8,7 +8,7 @@ $(function () {
               $.ajax({
 				  //enctype: "multipart/form-data",
 					type: "POST",
-					url: "/api/login",// where you wanna post
+					url: "/api/testt",//"/api/login",// where you wanna post
 					data: $('#loginform').serialize(),
 					error: function(jqXHR, textStatus, errorMessage) {
 						console.log(errorMessage); // Optional
