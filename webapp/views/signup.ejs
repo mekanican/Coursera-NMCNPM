@@ -21,10 +21,7 @@
       integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
       crossorigin="anonymous"
     />
-    <link
-      rel="stylesheet"
-      href="/sign-up/style.css"
-    />
+    <link rel="stylesheet" href="/sign-up/style.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -33,37 +30,38 @@
   <body>
     <div id="container">
       <div class="return">
-        <a href="/homepage/index.html"
-          ><i class="fa fa-arrow-left" aria-hidden="true"></i
-        ></a>
+        <a href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
       </div>
       <div class="myCard">
         <div class="row">
           <div class="col-md-6">
             <div class="myLeftCard">
-              <form class="myForm text-center">
+              <form name="my-form" class="myForm text-center" id = "loginform" method="post">
                 <header>
                   <h2>Create a new account</h2>
                 </header>
                 <div class="form-group">
-                  <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                  <i class="fa fa-user-circle-o" aria-hidden="true"> Name </i>
                   <input
                     class="myInput"
                     type="text"
                     placeholder="Username"
                     id="username"
+                    value="<%= username%>"
                     required
                   />
                   <div class="invalid-feedback">Please fill out this field</div>
                 </div>
 
                 <div class="form-group">
-                  <i class="fa fa-envelope-open" aria-hidden="true"></i>
+                  <i class="fa fa-envelope-open" aria-hidden="true"> Email </i>
                   <input
                     type="text"
                     class="myInput"
                     placeholder="Email"
                     id="email"
+                    value="<%= email%>"
+                    disabled
                     required
                   />
                 </div>
@@ -108,9 +106,6 @@
 
                 <input type="submit" class="btn" value="Sign up" />
               </form>
-              <p class="text-center end">
-                <small>Already have an account? <a href="">Log in</a></small>
-              </p>
             </div>
           </div>
 
@@ -136,11 +131,7 @@
                 </p>
 
                 <!-- <input type="button" class="btn_out" value="Learn More" /> -->
-                <a
-                  href="/homepage/index.html"
-                  class="btn_out"
-                  >Learn More</a
-                >
+                <a href="/" class="btn_out">Learn More</a>
               </div>
             </div>
           </div>
