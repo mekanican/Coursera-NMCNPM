@@ -30,7 +30,9 @@ mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_containe
         console.log('MongoDB Connection Succeeded.')
         // create temp user
         if (false) require('./controllers/temp_user.controller')
-            .createEmailName('notabotbytheway@gmail.com', 'CNPM');
+            .createEmailName('notabotbytheway@gmail.com', 'CNPM', (name, email) => {
+                console.log(name, email);
+            });
     } else {
         console.log('Error in DB connection: ' + err)
     }
@@ -71,6 +73,7 @@ app.use(require('./routes/convert'));
 app.use(require('./routes/index'));
 app.use(require('./routes/login'));
 app.use(require('./routes/signup'));
+app.use(require('./routes/courses'));
 
 app.listen(PORT, () => {
     console.log(`App currently running on localhost:${PORT}`)
