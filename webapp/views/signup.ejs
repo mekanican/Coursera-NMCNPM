@@ -36,7 +36,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="myLeftCard">
-              <form class="myForm text-center">
+              <form class="myForm text-center" action="/sign-up" method="get">
                 <header>
                   <h2>Create a new account</h2>
                 </header>
@@ -47,6 +47,7 @@
                     type="text"
                     placeholder="Username"
                     id="username"
+                    name="username"
                     value="<%= username%>"
                     required
                   />
@@ -60,8 +61,9 @@
                     class="myInput"
                     placeholder="Email"
                     id="email"
+                    name="email"
                     value="<%= email%>"
-                    disabled
+                    readonly="readonly"
                     required
                   />
                 </div>
@@ -94,7 +96,6 @@
                   <label
                     ><input
                       id="check_1"
-                      name="check_1"
                       type="checkbox"
                       required
                     /><small

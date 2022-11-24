@@ -14,15 +14,16 @@ module.exports = {
             }
         })
     },
-    createEmailName: (email, name, callback) => {
+    createEmailName: (email, name, role, callback) => {
         User.create({
             email: email,
-            name: name
+            name: name,
+            role: role
         }).then(err => {
             if (!err) {
                 callback(null);
             } else {
-                callback(email, name);
+                callback(email, name, role);
             }
         })
     }

@@ -13,16 +13,16 @@ var userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    // role: {
-    //     type: String,
-    //     required: true,
-    //     unique: true,
-    //     validate: {
-    //         validator: v => {
-    //             return v == 'Learner' || v == 'Lecturer'
-    //         }
-    //     }
-    // }
+    role: {
+        type: String,
+        required: true,
+        unique: true,
+        validate: {
+            validator: v => {
+                return v == 'learner' || v == 'lecturer'
+            }
+        }
+    }
 });
 
 //Export the model
