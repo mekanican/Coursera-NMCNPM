@@ -17,13 +17,13 @@ process.env.TOKEN_SECRET = 'Long time in human life, Fate is so bad for nice peo
 
 
 // mongodb setup
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 
 mongoose.Promise = global.Promise;
-
+ 
 // Connect MongoDB at default port 27017.
-mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_container:27017/test`, {
-    useNewUrlParser: true,
+var connection = mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_container:27017/test`, {
+    useNewUrlParser: true, 
     //useCreateIndex: true,
 }, (err) => {
     if (!err) {
@@ -35,6 +35,8 @@ mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_containe
             });
     } else {
         console.log('Error in DB connection: ' + err)
+		console.log(MONGO_USERNAME)
+		console.log(MONGO_PASSWORD);
     }
 });
 
@@ -82,7 +84,7 @@ app.post('/api/testt', authorization, (req, res) => {
 //         next();
 //     }
 // })
-
+ 
 // app.use('/', express.static('public'))
 
 // Example : /API?a=123&b=456
@@ -102,3 +104,4 @@ app.use(require('./routes/courses'));
 app.listen(PORT, () => {
     console.log(`App currently running on localhost:${PORT}`)
 })
+//console.log (`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb_container:27017/test`)
