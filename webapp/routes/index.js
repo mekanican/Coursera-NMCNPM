@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-router.use("/homepage", express.static("./public/homepage"))
-
+// Render index.ejs without param
 router.get('/', (req, res, next) => {
     res.render("index")
 })
