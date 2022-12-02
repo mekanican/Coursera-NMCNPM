@@ -21,7 +21,7 @@
       integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/sign-up/style.css" />
+    <link rel="stylesheet" href="/css/sign-up.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -30,18 +30,20 @@
   <body>
     <div id="container">
       <div class="return">
-        <a href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <a href="/"
+          ><i class="fa fa-arrow-left" aria-hidden="true"></i
+        ></a>
       </div>
       <div class="myCard">
         <div class="row">
           <div class="col-md-6">
             <div class="myLeftCard">
-              <form class="myForm text-center" action="/sign-up" method="get">
+              <form class="myForm text-center" action="/signup" method="get">
                 <header>
                   <h2>Create a new account</h2>
                 </header>
                 <div class="form-group">
-                  <i class="fa fa-user-circle-o" aria-hidden="true"> Name </i>
+                  <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                   <input
                     class="myInput"
                     type="text"
@@ -55,7 +57,7 @@
                 </div>
 
                 <div class="form-group">
-                  <i class="fa fa-envelope-open" aria-hidden="true"> Email </i>
+                  <i class="fa fa-envelope-open" aria-hidden="true"></i>
                   <input
                     type="text"
                     class="myInput"
@@ -63,7 +65,7 @@
                     id="email"
                     name="email"
                     value="<%= email%>"
-                    readonly="readonly"
+                    disabled
                     required
                   />
                 </div>
@@ -96,6 +98,7 @@
                   <label
                     ><input
                       id="check_1"
+                      name="check_1"
                       type="checkbox"
                       required
                     /><small
@@ -107,6 +110,9 @@
 
                 <input type="submit" class="btn" value="Sign up" />
               </form>
+              <p class="text-center end">
+                <small>Already have an account? <a href="">Log in</a></small>
+              </p>
             </div>
           </div>
 
@@ -117,7 +123,7 @@
                   <h2>Learn without limits</h2>
                 </header>
                 <!-- <img
-                  src="/img/logo1.png"
+                  src="/Coursera-NMCNPM/webapp/public/img/logo1.png"
                   alt=""
                   height="160px"
                 /> -->
@@ -132,7 +138,7 @@
                 </p>
 
                 <!-- <input type="button" class="btn_out" value="Learn More" /> -->
-                <a href="/" class="btn_out">Learn More</a>
+                <a href="/index.html" class="btn_out">Learn More</a>
               </div>
             </div>
           </div>
