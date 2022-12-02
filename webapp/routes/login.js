@@ -1,37 +1,48 @@
 const express = require('express')
 const router = express.Router()
 
+// Get temp_user mongoDB model
 const user_controller = require('../controllers/temp_user.controller');
-const oauth = require('../API/google_oauth2');
 
+const oauth = require('../API/google_oauth2');
 const jwt_auth = require('../API/jwt_auth');
 
-
-//Nhan duoc request nao do, kiem tra token truoc khi thuc hien.
-// app.get('/api/userOrders', authorization, (req, res) => {
-//     // executes after authorization
-//     // ...
-// })
-
 oauth(router, (name_, email_, res) => {
-    user_controller.getName(email_, userCustomName => {
-        console.log(userCustomName);
-        if (!userCustomName) {
-            res.render('signup', {
+    // Query to database to find a user with corresponding email_
+    user_controller.getName(email_, (err, returnObject) => {
+        if (err) {
+            console.log(err);
+            res.status(503);
+            return;
+        }
+        
+        // If user is not in database -> signup
+        if (!returnObject) {
+
+            // Partial authorize user
+            let x = jwt_auth.loginHandle({ 
+                name: name_, 
+                email: email_, 
+                valid: false // if signup success then change to true
+            }, res)
+            x.render('signup', {
                 username: name_,
                 email: email_
             })
         } else {
-            userCustomName = userCustomName.name
-            // user_controller.getName()
-            jwt_auth.loginHandle({ name: userCustomName, email: email_, valid: true }, res)
+            // Else -> authorize this user!
+            userCustomName = returnObject.name
+            let x = jwt_auth.loginHandle({ 
+                name: userCustomName, 
+                email: email_, 
+                valid: true 
+            }, res)
+            x.status(200).redirect('/');
         }
     });
 })
 
-router.use("/log-in", express.static("./public/log-in"))
-
-router.get('/log-in', (req, res, next) => {
+router.get('/login', (req, res, next) => {
     res.render("login")
 })
 
