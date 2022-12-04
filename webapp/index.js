@@ -36,6 +36,8 @@ app.use(require('./routes/login'));
 app.use(require('./routes/signup'));
 // endpoint '/courses' handle
 app.use(require('./routes/courses'));
+// endpoint '/logout' handle
+app.use(require('./routes/logout'));
 
 // ---- END OF ROUTE HANDLER ---
 // SET PORT, default is 20222 if not defined in ENV

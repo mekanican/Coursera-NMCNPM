@@ -4,9 +4,7 @@ const jwt_auth = require('../API/jwt_auth');
 
 const user_controller = require('../controllers/temp_user.controller');
 
-router.use(jwt_auth.authorization);
-
-router.get('/signup', (req, res, next) => {
+router.get('/signup', jwt_auth.authorization, (req, res, next) => {
 
     if (!req.obj) {
         res.redirect('/login');
