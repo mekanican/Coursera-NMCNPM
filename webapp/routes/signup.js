@@ -32,7 +32,7 @@ router.get('/signup', (req, res, next) => {
     
     // Now set the valid to true to actually authorized this user !
     let x = jwt_auth.loginHandle({ 
-        name: name, 
+        name: username, 
         email: email, 
         valid: true // if signup success then change to true
     }, res)

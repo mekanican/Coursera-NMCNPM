@@ -4,14 +4,14 @@ const router = express.Router()
 const jwt_auth = require('../API/jwt_auth');
 
 router.use(jwt_auth.authorization);
-router.get('/all-courses', (req, res) => {
+router.get('/courses', (req, res) => {
     let username = req.obj.name;
     res.render('courses', {
         username: username,
         courses: [
             {
                 title: "SQL",
-                desciption: "Cơ sở dữ liệu"
+                description: "Cơ sở dữ liệu"
             },
             {
                 title: "DSA",
