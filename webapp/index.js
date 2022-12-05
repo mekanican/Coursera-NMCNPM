@@ -35,11 +35,13 @@ var connection = mongoose.connect(`mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}
             });
     } else {
         console.log('Error in DB connection: ' + err)
-		console.log(MONGO_USERNAME)
-		console.log(MONGO_PASSWORD);
-    }
+		console.log(MONGO_USERNAME);
+		console.log(MONGO_PASSWORD); 
+    } 
 });
 
+//var InitDB = require('./init-db.js');
+//InitDB.init_db(); 
 
 //JWT
 

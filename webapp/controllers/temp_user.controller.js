@@ -17,7 +17,9 @@ module.exports = {
     createEmailName: (email, name, callback) => {
         User.create({
             email: email,
-            name: name
+            fullname: name,
+            role: "test_role",
+			gender: true
         }).then(err => {
             if (!err) {
                 callback(null);
