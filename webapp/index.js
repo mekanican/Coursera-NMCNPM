@@ -55,6 +55,16 @@ function InitMongoDBInstance() {
     }, (err) => {
         if (!err) {
             console.log('MongoDB Connection Succeeded.');
+            //set true neu la lan dau chay, chua co database, sau do nho set false
+            if (true)
+            {
+                const first_start_up = require('./controllers/temp_user.controller');
+                first_start_up.createEmailName('notabotbytheway@gmail.com', 'CNPM', (name, email) => {
+                    console.log(name, email);
+                });
+                first_start_up.createCourse (1, "NMCNPM", "Description, ah yes",null,4.5,2,null,null,null);
+                first_start_up.createCourse (2, "DMCS", "Mon thu 2",null,1,3,null,null,null);
+            }; 
         } else {
             // EXIT ON FAILED DATABASE INIT
             console.log('Error in DB connection: ' + err);
