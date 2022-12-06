@@ -15,7 +15,7 @@ module.exports = {
         User.create({
             email: email,
             fullname: name,
-            role: "test_role",
+            role: role,
 			gender: true
         }).then(err => {
             if (!err) {

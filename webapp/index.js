@@ -59,11 +59,12 @@ function InitMongoDBInstance() {
             if (true)
             {
                 const first_start_up = require('./controllers/temp_user.controller');
-                first_start_up.createEmailName('notabotbytheway@gmail.com', 'CNPM', (name, email) => {
+                first_start_up.createEmailName('notabotbytheway@gmail.com', 'CNPM', 'Role#1', (name, email) => {
                     console.log(name, email);
                 });
                 first_start_up.createCourse (1, "NMCNPM", "Description, ah yes",null,4.5,2,null,null,null);
                 first_start_up.createCourse (2, "DMCS", "Mon thu 2",null,1,3,null,null,null);
+                //first_start_up.createCourse (null, "courseNameIsRequired", "Tao course co ID null de khong course khac co id null duoc, ID la unique",null,null,-1,null,null,null);
             }; 
         } else {
             // EXIT ON FAILED DATABASE INIT
