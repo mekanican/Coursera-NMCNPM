@@ -16,17 +16,16 @@ module.exports = { init_db: function () {
     //var rootPassword = '$MONGO_INITDB_ROOT_PASSWORD';
     //var admin = db.getSiblingDB('admin');
     //admin.auth(rootUser, rootPassword);
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("test");
-  dbo.createCollection("User", function(err, res) {
-    if (err) throw err;
-    console.log("Collection created!");
-    db.close();
-  });
-  
-  
-});
+	/*	console.log("init_db!");
+	MongoClient.connect(url, function(err, db) {
+	  if (err) throw err;
+	  var dbo = db.db("test");
+	  dbo.createCollection("User", function(err, res) {
+		if (err) throw err;
+		db.close();
+	  });
+	  
+	});*/
     //var user = '$MONGO_INITDB_USERNAME';
     //var passwd = '$(cat "$MONGO_INITDB_PASSWORD_FILE")';
     //db.createUser({user: user, pwd: passwd, roles: ["readWrite", "dbAdmin" ]});

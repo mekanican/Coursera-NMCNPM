@@ -1,4 +1,5 @@
-const User = require('../models/temp_user');
+//const {User, CourseInformation} = require('../models/temp_user');
+const {User, CourseInformation} = require('../models/temp_user');
 
 module.exports = {
     getName: (email, callback) => {
@@ -27,5 +28,23 @@ module.exports = {
                 callback(email, name);
             }
         })
+    },
+	createCourse: (courseid, coursename, description, tag, rating, creatorid, datecreated, lastmodified, callback) => {
+        CourseInformation.create({
+            courseid:courseid, 
+			coursename:coursename, 
+			description:description, 
+			tag:tag, 
+			rating:rating, 
+			creatorid:creatorid, 
+			datecreated:datecreated, 
+			lastmodified:lastmodified
+        }).then(err => {
+            if (!err) {
+                callback(null);
+            } else {
+                //callback(email, name);
+            }
+        })
     }
-}
+} 

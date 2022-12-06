@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'); // Erase if already required
 //https://mongoosejs.com/docs/schematypes.html
 // Declare the Schema of the Mongo model
-var userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
@@ -46,14 +46,15 @@ var userSchema = new mongoose.Schema({
         index: true,
     } 
 });
-
+/*
     //     validate: {
     //         validator: v => {
     //             return v == 'Learner' || v == 'Lecturer'
     //         }
     //     }
 	//Number
-var CourseInformationSchema = new mongoose.Schema({
+*/
+const CourseInformationSchema = new mongoose.Schema({
 	courseid: {
         type: Number,
         required: true,
@@ -96,5 +97,9 @@ var CourseInformationSchema = new mongoose.Schema({
     }
 })
 //Export the model
-module.exports = mongoose.model('User', userSchema); 
-module.exports = mongoose.model('CourseInformation', CourseInformationSchema);
+///module.exports = mongoose.model('User', userSchema); 
+//module.exports = mongoose.model('CourseInformation', CourseInformationSchema);
+module.exports = {
+  User: mongoose.model('User', userSchema),
+  CourseInformation: mongoose.model('CourseInformation', CourseInformationSchema)
+}
