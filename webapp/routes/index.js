@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-router.use("/homepage", express.static("./public/homepage"))
+const navbar_handle = require('../API/navbar_handle')
 
-router.get('/', (req, res, next) => {
-    res.render("index")
+router.get('/', navbar_handle.middleware, (req, res, next) => {
+    res.render("index", navbar_handle.check(req))
 })
 
 module.exports = router

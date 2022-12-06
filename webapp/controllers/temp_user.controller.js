@@ -3,29 +3,25 @@ const {User, CourseInformation} = require('../models/temp_user');
 
 module.exports = {
     getName: (email, callback) => {
-        User.findOne({ email: email }, 'name').then((name, err) => {
+        User.findOne({ email: email }, 'name').then((returnObject, err) => {
             if (err) {
-                console.log(err)
-                callback(null);
+                callback("Cannot query", null); // better callback
             }
-            if (!name) {
-                callback(null);
-            } else {
-                callback(name);
-            }
+
+            callback(null, returnObject);
         })
     },
-    createEmailName: (email, name, callback) => {
+    createEmailName: (email, name, role, callback) => {
         User.create({
             email: email,
             fullname: name,
-            role: "test_role",
+            role: role,
 			gender: true
         }).then(err => {
             if (!err) {
-                callback(null);
+                callback(err);
             } else {
-                callback(email, name);
+                callback(null, email, name, role);
             }
         })
     },

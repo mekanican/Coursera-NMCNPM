@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         index: true,
     } 
-});
+}, { collection: 'Users' });
 /*
     //     validate: {
     //         validator: v => {
@@ -55,16 +55,16 @@ const userSchema = new mongoose.Schema({
 	//Number
 */
 const CourseInformationSchema = new mongoose.Schema({
-	courseid: {
-        type: Number,
-        required: true,
-        unique: true,
-        index: true,
-    }, 
+	
 	coursename: {
         type: String,
         required: true,
         unique: false,
+        index: true,
+    }, courseid: {
+        type: Number,
+        required: true,
+        unique: true,
         index: true,
     }, description: {
         type: String,
@@ -95,7 +95,7 @@ const CourseInformationSchema = new mongoose.Schema({
         type: Date,
         index: true,
     }
-})
+}, { collection: 'CourseInformation' });
 //Export the model
 ///module.exports = mongoose.model('User', userSchema); 
 //module.exports = mongoose.model('CourseInformation', CourseInformationSchema);

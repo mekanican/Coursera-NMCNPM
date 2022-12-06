@@ -4,14 +4,22 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/homepage/style.css" />
+    <title>Teach2Learn</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+      crossorigin="anonymous"
+    ></script> -->
     <!-- CSS only -->
-    <link
+    <!-- <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous"
-    />
+    /> -->
     <!-- JavaScript Bundle with Popper -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
@@ -25,172 +33,378 @@
       crossorigin="anonymous"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lobster&family=Playball&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Lobster&amp;family=Playball&amp;display=swap"
       rel="stylesheet"
     />
-    <title>Teach2Learn</title>
+    <!-- Swiperjs hiệu ứng slidebar -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+    />
   </head>
   <body>
-    <section id="nav-bar">
-      <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#"
-            ><img src="/img/logo2.png" alt=""
-          /></a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <!-- <i class="fa fa-bars" aria-hidden="true"></i> -->
+    <%- include('header', {signedIn: signedIn, name: name}) %> 
+    <!-- ==============END OF NAVBAR ============= -->
 
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" href="#">HOME</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/all-courses">ALL COURSE</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="#">Q&A</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">CONTACT</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  YOUR PROFILE</a
-                >
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">My Courses</a></li>
-                  <li><a class="dropdown-item" href="#">My Certificates</a></li>
-                  <li><a class="dropdown-item" href="#">Save for later</a></li>
-                  <li><a class="dropdown-item" href="#">Log out</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                    <a class="dropdown-item" href="#">Help center</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="d-flex">
-                <a class="mleft nav-link" href="/log-in">Log in</a>
-              </li>
-              <li class="d-flex">
-                <a class="nav-link mright" class="d-flex" href="/sign-up"
-                  >Sign up</a
-                >
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="What do you want?"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
+    <header>
+      <div class="container header__container">
+        <div class="header__left">
+          <h1>Welcom to Teach2Learn</h1>
+          <p>
+            Start, switch, or advance your career with more than 1000 courses,
+            Professional Certificates, and degrees from world-class universities
+            and companies.
+          </p>
+          <a href="/courses" class="btn btn-primary">Get started</a>
         </div>
-      </nav>
-    </section>
 
-    <!-- ------------BANNER SECTION ------------->
-
-    <section id="banner">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <p class="welcom">Welcome to Teach2Learn!</p>
-            <p>
-              Start, switch, or advance your career with more than 5,000
-              courses,<br />
-              Professional Certificates, and degrees from world-class
-              universities and companies.
-            </p>
-            <a href="#"
-              ><img src="/img/play.png" class="play-btn" />Watch Tutorials</a
-            >
-          </div>
-          <div class="col-md-6 text-center">
-            <img src="/img/home3.png" class="img-fluid" />
+        <div class="header__right">
+          <div class="header__right-img ">
+            <img src="/images/home3.png" alt="" />
           </div>
         </div>
       </div>
-      <img src="/img/wave1.png" class="bottom-img" />
-    </section>
+    </header>
+    <!-- ==============END OF HEADER ============= -->
 
-    <!-- -------SERVICES SECTION ------- -->
-    <section id="services">
-      <div class="container text-center">
-        <h1 class="title">What we do?</h1>
-        <!-- HAT WE DO? -->
-        <div class="row text-center services">
-          <div class="col-md-4">
-            <img src="/img/service1.png" class="service-img" />
-            <h4>Growth Marketing</h4>
-            <p>Yê server tự pull được code rồi (t nghĩ thế)</p>
+    <section class="categories">
+      <div class="container categories__container">
+        <div class="categories__left">
+          <h1>Catelogies</h1>
+          <p>
+            Teach2Learn will classify subjects according to tags to mark and
+            learners will easily choose their major. Try to experience a certain
+            subject, we certainly won't let you down
+          </p>
+          <a href="#" class="btn">Learn More</a>
+        </div>
+
+        <div class="categories__right">
+          <article class="category">
+            <span class="catelogy__icon"
+              ><i class="fa fa-code" aria-hidden="true"></i>
+            </span>
+            <h5>Web</h5>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+          </article>
+
+          <article class="category">
+            <span class="catelogy__icon"
+              ><i class="fa fa-cog" aria-hidden="true"></i>
+            </span>
+            <h5>Database</h5>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+          </article>
+
+          <article class="category">
+            <span class="catelogy__icon"
+              ><i class="fa fa-cogs" aria-hidden="true"></i>
+            </span>
+            <h5>Internet of Things</h5>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+          </article>
+
+          <article class="category">
+            <span class="catelogy__icon"
+              ><i class="fa fa-pencil" aria-hidden="true"></i>
+            </span>
+            <h5>Design</h5>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+          </article>
+
+          <article class="category">
+            <span class="catelogy__icon"
+              ><i class="fa fa-desktop" aria-hidden="true"></i>
+            </span>
+            <h5>Artificial Intelligence</h5>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+          </article>
+
+          <article class="category">
+            <span class="catelogy__icon"
+              ><i class="fa fa-plane" aria-hidden="true"></i>
+            </span>
+            <h5>Mobile</h5>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- END OF CATELOGIES -->
+
+    <section class="courses">
+      <h2>Popular Courses</h2>
+      <div class="container courses__container">
+        <article class="course pb-2">
+          <div class="course__image">
+            <img src="/images/course5.jpg" alt="" />
           </div>
-          <div class="col-md-4">
-            <img src="/img/service2.png" class="service-img" />
-            <h4>Online Branding</h4>
+          <div class="course__info">
+            <h4>Responsive Website UI Design</h4>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              praesentium architecto magnam dolorem nemo facilis fugiat ad.
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Reprehenderit libero rem.
             </p>
           </div>
-          <div class="col-md-4">
-            <img src="/img/service3.png" class="service-img" />
-            <h4>Atimated Ads</h4>
+          <a href="/courses" class="btn btn-primary">Learn More</a>
+        </article>
+        <article class="course pb-2">
+          <div class="course__image">
+            <img src="/images/course2.jpg" alt="" />
+          </div>
+          <div class="course__info">
+            <h4>Active Directory on Windows Server</h4>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet
-              praesentium architecto magnam dolorem nemo facilis fugiat ad.
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Reprehenderit libero rem.
             </p>
           </div>
-        </div>
-      </div>
-
-      <div>
-        <button type="button" class="btn btn-primary">All courses</button>
-      </div>
-    </section>
-
-    <section id="about-us">
-      <div class="container">
-        <h1 class="title text-center">Why choose us?</h1>
-        <!-- HY CHOOSE US? -->
-        <div class="row">
-          <div class="col-md-6">
-            <p>Why we're different</p>
-            <ul>
-              <li>Believe in doing with honesty</li>
-              <li>Believe in doing with honesty</li>
-              <li>Believe in doing with honesty</li>
-              <li>Believe in doing with honesty</li>
-              <li>Believe in doing with honesty</li>
-              <li>Believe in doing with honesty</li>
-            </ul>
+          <a href="/courses" class="btn btn-primary">Learn More</a>
+        </article>
+        <article class="course">
+          <div class="course__image">
+            <img src="/images/course3.jpg" alt="" />
           </div>
-        </div>
+          <div class="course__info">
+            <h4 class="mb-2">SQL for NEWBS: Weekender Crash</h4>
+            <p class="mb-2">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Reprehenderit libero rem.
+            </p>
+          </div>
+          <a href="/courses" class="btn btn-primary mb-2">Learn More</a>
+        </article>
       </div>
     </section>
+    <!-- END OF COURSES -->
+
+    <section class="faqs">
+      <h2>Frequently Asked Questions</h2>
+      <div class="container faqs__container">
+        <article class="faq">
+          <div class="faq__icon">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </div>
+          <div class="question__answer">
+            <h4>How do I know the right courses for me?</h4>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Reiciendis quis accusamus necessitatibus minima? Eligendi unde
+              obcaecati inventore dolorum, architecto odit nam corrupti odio
+              sapiente, excepturi impedit libero enim voluptas laudantium?
+            </p>
+          </div>
+        </article>
+        <article class="faq">
+          <div class="faq__icon">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </div>
+          <div class="question__answer">
+            <h4>How do I know the right courses for me?</h4>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Reiciendis quis accusamus necessitatibus minima? Eligendi unde
+              obcaecati inventore dolorum, architecto odit nam corrupti odio
+              sapiente, excepturi impedit libero enim voluptas laudantium?
+            </p>
+          </div>
+        </article>
+        <article class="faq">
+          <div class="faq__icon">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </div>
+          <div class="question__answer">
+            <h4>How do I know the right courses for me?</h4>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Reiciendis quis accusamus necessitatibus minima? Eligendi unde
+              obcaecati inventore dolorum, architecto odit nam corrupti odio
+              sapiente, excepturi impedit libero enim voluptas laudantium?
+            </p>
+          </div>
+        </article>
+        <article class="faq">
+          <div class="faq__icon">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </div>
+          <div class="question__answer">
+            <h4>How do I know the right courses for me?</h4>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Reiciendis quis accusamus necessitatibus minima? Eligendi unde
+              obcaecati inventore dolorum, architecto odit nam corrupti odio
+              sapiente, excepturi impedit libero enim voluptas laudantium?
+            </p>
+          </div>
+        </article>
+        <article class="faq">
+          <div class="faq__icon">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </div>
+          <div class="question__answer">
+            <h4>How do I know the right courses for me?</h4>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Reiciendis quis accusamus necessitatibus minima? Eligendi unde
+              obcaecati inventore dolorum, architecto odit nam corrupti odio
+              sapiente, excepturi impedit libero enim voluptas laudantium?
+            </p>
+          </div>
+        </article>
+        <article class="faq">
+          <div class="faq__icon">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </div>
+          <div class="question__answer">
+            <h4>How do I know the right courses for me?</h4>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Reiciendis quis accusamus necessitatibus minima? Eligendi unde
+              obcaecati inventore dolorum, architecto odit nam corrupti odio
+              sapiente, excepturi impedit libero enim voluptas laudantium?
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+    <!--  end of FAQs -->
+
+    <section class="container testimonials__container mySwiper">
+      <h2>Learners' Testimonials</h2>
+      <div class="swiper-wrapper">
+        <acticle class="testimonial swiper-slide">
+          <div class="avatar">
+            <img src="/images/avatar1.jpg" alt="" />
+          </div>
+          <div class="testimonial__info">
+            <h5>Phù Thị Kim Trang</h5>
+            <small>Student</small>
+          </div>
+          <div class="testimonial__body">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam non
+              voluptate cum, nobis sit quia facilis! Quos odit dolor saepe
+              architecto provident accusantium, corrupti tempora, vel nostrum
+              necessitatibus, libero delectus.
+            </p>
+          </div>
+        </acticle>
+
+        <acticle class="testimonial swiper-slide">
+          <div class="avatar">
+            <img src="/images/avatar2.jpg" alt="" />
+          </div>
+          <div class="testimonial__info">
+            <h5>HIEUTHUHAI</h5>
+            <small>Student</small>
+          </div>
+          <div class="testimonial__body">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam non
+              voluptate cum, nobis sit quia facilis! Quos odit dolor saepe
+              architecto provident accusantium, corrupti tempora, vel nostrum
+              necessitatibus, libero delectus.
+            </p>
+          </div>
+        </acticle>
+
+        <acticle class="testimonial swiper-slide">
+          <div class="avatar">
+            <img src="/images/avatar3.jpg" alt="" />
+          </div>
+          <div class="testimonial__info">
+            <h5>Nghĩa Võ</h5>
+            <small>Student</small>
+          </div>
+          <div class="testimonial__body">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam non
+              voluptate cum, nobis sit quia facilis! Quos odit dolor saepe
+              architecto provident accusantium, corrupti tempora, vel nostrum
+              necessitatibus, libero delectus.
+            </p>
+          </div>
+        </acticle>
+        <acticle class="testimonial swiper-slide">
+          <div class="avatar">
+            <img src="/images/avatar4.jpg" alt="" />
+          </div>
+          <div class="testimonial__info">
+            <h5>Phạm Hữu Phúc</h5>
+            <small>Student</small>
+          </div>
+          <div class="testimonial__body">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet
+              perferendis nihil, asperiores culpa dolor iste perspiciatis
+              distinctio saepe, voluptate velit ea a accusamus cumque molestiae
+              debitis officia neque enim libero?
+            </p>
+          </div>
+        </acticle>
+
+        <acticle class="testimonial swiper-slide">
+          <div class="avatar">
+            <img src="/images/avatar5.jpg" alt="" />
+          </div>
+          <div class="testimonial__info">
+            <h5>Bùi Quốc Trung</h5>
+            <small>Student</small>
+          </div>
+          <div class="testimonial__body">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet
+              perferendis nihil, asperiores culpa dolor iste perspiciatis
+              distinctio saepe, voluptate velit ea a accusamus cumque molestiae
+              debitis officia neque enim libero?
+            </p>
+          </div>
+        </acticle>
+
+        <acticle class="testimonial swiper-slide">
+          <div class="avatar">
+            <img src="/images/avatar6.jpg" alt="" />
+          </div>
+          <div class="testimonial__info">
+            <h5>Huỳnh Thiết Gia</h5>
+            <small>Student</small>
+          </div>
+          <div class="testimonial__body">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
+              impedit ipsum eveniet adipisci, officia, dolorum harum rerum
+              veniam ipsam dolor quas voluptate accusamus facere consectetur
+              totam sunt similique? Non, voluptatem!
+            </p>
+          </div>
+        </acticle>
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+    </section>
+
+    <%- include('footer.ejs') %> 
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+    <script src="/js/main.js"></script>
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        cssMode: true,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+        },
+        mousewheel: true,
+        keyboard: true,
+      });
+    </script>
   </body>
 </html>

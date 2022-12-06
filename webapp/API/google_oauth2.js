@@ -5,7 +5,6 @@ module.exports = (app, callback) => {
     var userProfile = null;
 
     app.use(passport.initialize());
-    //app.use(passport.session());
 
     app.get('/success', (req, res) => {
         if (!userProfile)
@@ -15,17 +14,6 @@ module.exports = (app, callback) => {
         email = userProfile.emails[0].value;
 
         callback(name_, email, res);
-
-        // if (!user_controller.getName(email)) {
-        //     res.render('/signup', {
-        //         username: name_,
-        //         email: email
-        //     })
-        // } else {
-        //     // user_controller.getName()
-        //     // Todo: apply JWT here
-        //     res.redirect('/')
-        // }
     });
     app.get('/error', (req, res) => res.redirect("/login"));
 
