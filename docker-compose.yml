@@ -8,7 +8,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=NMCNPM_2022
     ports:
-      - 27017:27017
+      - 27017:27017 # Should not exposed on production server
     volumes:
       - ./entrypoint:/docker-entrypoint-initdb.d
       - mongodb_data_container:/data/db
@@ -27,10 +27,20 @@ services:
       - node_modules_container:/home/node/app/node_modules
     ports:
       - 20222:20222
-      - 9229:9229 # Debug port
+      - 9229:9229 # Debug port, Should not exposed on production server
     command: ash -c "npm install --save&&npm start"
     depends_on: 
       - mongodb_container
+      - image_microservice
+  image_microservice:
+    image: "python:3-alpine"
+    user: "root"
+    working_dir: /home/abc/app 
+    ports:
+      - 1234:2234 # Should not exposed on production server
+    volumes:
+      - ./image-microservice:/home/abc/app
+    command: ash -c "pip install --no-cache-dir -r ./requirements.txt && python3 ./main.py"
 
 
 volumes:

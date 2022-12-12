@@ -31,7 +31,7 @@ oauth(router, (name_, email_, res) => {
             })
         } else {
             // Else -> authorize this user!
-            userCustomName = returnObject.name
+            userCustomName = returnObject.fullname
             let x = jwt_auth.loginHandle({ 
                 name: userCustomName, 
                 email: email_, 
