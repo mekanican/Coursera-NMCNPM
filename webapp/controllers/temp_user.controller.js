@@ -3,7 +3,7 @@ const {User, CourseInformation} = require('../models/temp_user');
 
 module.exports = {
     getName: (email, callback) => {
-        User.findOne({ email: email }, 'name').then((returnObject, err) => {
+        User.findOne({ email: email }, 'fullname').then((returnObject, err) => {
             if (err) {
                 callback("Cannot query", null); // better callback
             }
