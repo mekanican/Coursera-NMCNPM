@@ -42,5 +42,16 @@ module.exports = {
                 //callback(email, name);
             }
         })
-    }
+    },
+	deleteCourse: (deleted_courseid, callback) =>
+	{
+		CourseInformation.dropIndex ({
+		courseid:deleted_courseid}).then(err => {
+            if (!err) {
+                callback(null);
+            } else {
+                //callback(email, name);
+            }
+        })
+	}
 } 
