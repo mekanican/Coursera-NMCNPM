@@ -27,6 +27,27 @@ router.get('/courses/', jwt_auth.authorization, (req, res) => {
 	  });
 
 })
+
+router.get('/courses_temp/', jwt_auth.authorization, (req, res) => {
+    let username = req.obj.name;
+	const collection  = mongoose.connection.db.collection("CourseInformation");
+	  collection.find({"coursename": {
+    "$exists": true
+  }}, {_id:0}).toArray(function(err, data){
+		  
+		  var vals=[];
+			for(var i=0;i<data.length;i++){
+			   vals.push({title:data[i]["coursename"], desciption:data[i]["description"]});
+			}
+		  console.log(vals);
+		  res.render('courses_delete', Object.assign({
+				username: username,
+				courses: vals
+			}, navbar_handle.check(req)));
+	  });
+
+})
+
 router.post('/courses_delete/', jwt_auth.authorization, (req, res) => {
     let username = req.obj.name;
 	const collection  = mongoose.connection.db.collection("CourseInformation");
