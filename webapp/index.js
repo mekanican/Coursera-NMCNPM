@@ -39,6 +39,9 @@ app.use(require('./routes/courses'));
 // endpoint '/logout' handle
 app.use(require('./routes/logout'));
 
+// TODO: this debugging code needs cleaning after used
+app.use(require('./routes/CertificateRoute'))
+
 // ---- END OF ROUTE HANDLER ---
 // SET PORT, default is 20222 if not defined in ENV
 // Remember this is virtual port, not real port (can be the same)
