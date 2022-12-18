@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         index: true,
     } 
-}, { collection: 'Users' });
+}, { collection: 'User' });
 /*
     //     validate: {
     //         validator: v => {
