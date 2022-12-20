@@ -42,7 +42,7 @@ app.use(require('./routes/logout'));
 app.use(require('./routes/course_content'));
 
 // TODO: this debugging code needs cleaning after used
-app.use(require('./routes/certificate'))
+app.use(require('./routes/debug'))
 
 // ---- END OF ROUTE HANDLER ---
 // SET PORT, default is 20222 if not defined in ENV
