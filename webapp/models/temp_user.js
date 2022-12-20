@@ -2,6 +2,12 @@ const mongoose = require('mongoose'); // Erase if already required
 //https://mongoosejs.com/docs/schematypes.html
 // Declare the Schema of the Mongo model
 const userSchema = new mongoose.Schema({
+	userid: {
+		type: Number,
+        required: true,
+        unique: true,
+        index: true,
+	},	
     role: {
         type: String,
         required: true,
@@ -94,6 +100,10 @@ const CourseInformationSchema = new mongoose.Schema({
     lastmodified: {
         type: Date,
         index: true,
+    },
+    isdeleted: {
+        type: Boolean,
+        index: true,
     }
 }, { collection: 'CourseInformation' });
 const NoteSchema = new mongoose.Schema({
@@ -103,15 +113,13 @@ const NoteSchema = new mongoose.Schema({
         unique: true,
         index: true,
     },userid: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         required: true,
         index: true,
-		ref: 'User'
     },lectureid: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         required: true,
         index: true,
-		//ref: 'SectionLecture'
     }, notecontent: {
         type: String,
         required: true,
@@ -126,8 +134,19 @@ const NoteSchema = new mongoose.Schema({
         type: Date,
         index: true,
     }
-}, { collection: 'Note' });
-
+}, {  toObject: {virtuals:true}, collection: 'Note' });
+NoteSchema.virtual('user', {
+  ref: 'User',
+  localField: 'userid',
+  foreignField: 'userid',
+  justOne: true // for many-to-1 relationships
+});
+NoteSchema.virtual('lecture', {
+  ref: 'SectionLecture',
+  localField: 'lectureid',
+  foreignField: 'lectureid',
+  justOne: true // for many-to-1 relationships
+});
 
 const ProgressTrackingSchema = new mongoose.Schema({
 	progressid: {
@@ -136,25 +155,37 @@ const ProgressTrackingSchema = new mongoose.Schema({
         unique: true,
         index: true,
     },userid: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        index: true,
-		ref: 'User'
-    },courseid: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        index: true,
-		ref: 'CourseInformation'
-    },TotalSectionFinished: {
         type: Number,
         required: true,
         index: true,
-    },Streak: {
+    },courseid: {
+        type: Number,
+        required: true,
+        index: true,
+		//ref: ''
+    },totalsectionfinished: {
+        type: Number,
+        required: true,
+        index: true,
+    },streak: {
         type: Number,
         required: true,
         index: true,
     }
-}, { collection: 'ProgressTracking' });
+}, { toObject: {virtuals:true}, collection: 'ProgressTracking' });
+// Foreign keys definitions
+ProgressTrackingSchema.virtual('user', {
+  ref: 'User',
+  localField: 'userid',
+  foreignField: 'userid',
+  justOne: true // for many-to-1 relationships
+});
+ProgressTrackingSchema.virtual('course', {
+  ref: 'CourseInformation',
+  localField: 'courseid',
+  foreignField: 'courseid',
+  justOne: true // for many-to-1 relationships
+});
 const FavoriteCourseSchema = new mongoose.Schema({
 	favoritecourseid: {
         type: Number,
@@ -162,17 +193,30 @@ const FavoriteCourseSchema = new mongoose.Schema({
         unique: true,
         index: true,
     },userid: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         required: true,
         index: true,
 		ref: 'User'
     },courseid: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         required: true,
         index: true,
 		ref: 'CourseInformation'
     }
-}, { collection: 'FavoriteCourse' });
+}, { toObject: {virtuals:true}, collection: 'FavoriteCourse' });
+FavoriteCourseSchema.virtual('user', {
+  ref: 'User',
+  localField: 'userid',
+  foreignField: 'userid',
+  justOne: true // for many-to-1 relationships
+});
+FavoriteCourseSchema.virtual('course', {
+  ref: 'CourseInformation',
+  localField: 'courseid',
+  foreignField: 'courseid',
+  justOne: true // for many-to-1 relationships
+});
+
 /*const TempSchema = new mongoose.Schema({
 	
 	coursename: {
