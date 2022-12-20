@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         index: true,
     } 
-}, { collection: 'Users' });
+}, { collection: 'User' });
 /*
     //     validate: {
     //         validator: v => {
@@ -96,10 +96,118 @@ const CourseInformationSchema = new mongoose.Schema({
         index: true,
     }
 }, { collection: 'CourseInformation' });
+const NoteSchema = new mongoose.Schema({
+	noteid: {
+        type: Number,
+        required: true,
+        unique: true,
+        index: true,
+    },userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        index: true,
+		ref: 'User'
+    },lectureid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        index: true,
+		//ref: 'SectionLecture'
+    }, notecontent: {
+        type: String,
+        required: true,
+        unique: false,
+        index: true,
+    },  
+    datecreated: {
+        type: Date,
+        index: true,
+    },
+    lastmodified: {
+        type: Date,
+        index: true,
+    }
+}, { collection: 'Note' });
+
+
+const ProgressTrackingSchema = new mongoose.Schema({
+	progressid: {
+        type: Number,
+        required: true,
+        unique: true,
+        index: true,
+    },userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        index: true,
+		ref: 'User'
+    },courseid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        index: true,
+		ref: 'CourseInformation'
+    },TotalSectionFinished: {
+        type: Number,
+        required: true,
+        index: true,
+    },Streak: {
+        type: Number,
+        required: true,
+        index: true,
+    }
+}, { collection: 'ProgressTracking' });
+const FavoriteCourseSchema = new mongoose.Schema({
+	favoritecourseid: {
+        type: Number,
+        required: true,
+        unique: true,
+        index: true,
+    },userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        index: true,
+		ref: 'User'
+    },courseid: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        index: true,
+		ref: 'CourseInformation'
+    }
+}, { collection: 'FavoriteCourse' });
+/*const TempSchema = new mongoose.Schema({
+	
+	coursename: {
+        type: String,
+        required: true,
+        unique: false,
+        index: true,
+    }, courseid: {
+        type: Number,
+        required: true,
+        unique: true,
+        index: true,
+    }, description: {
+        type: String,
+        required: false,
+        unique: false,
+        index: true,
+    }, rating: {
+        type: mongoose.Schema.Types.Decimal128,
+        required: false,
+        unique: false,
+        index: true,
+    }, 
+    datecreated: {
+        type: Date,
+        index: true,
+    },
+}, { collection: 'Name' });*/
 //Export the model
 ///module.exports = mongoose.model('User', userSchema); 
 //module.exports = mongoose.model('CourseInformation', CourseInformationSchema);
 module.exports = {
   User: mongoose.model('User', userSchema),
-  CourseInformation: mongoose.model('CourseInformation', CourseInformationSchema)
+  CourseInformation: mongoose.model('CourseInformation', CourseInformationSchema),
+  ProgressTracking: mongoose.model('ProgressTracking', ProgressTrackingSchema),
+  Note: mongoose.model('Note', NoteSchema),
+  FavoriteCourse: mongoose.model('FavoriteCourse', FavoriteCourseSchema),
 }

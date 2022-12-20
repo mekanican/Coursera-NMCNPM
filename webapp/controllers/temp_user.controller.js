@@ -1,5 +1,5 @@
 //const {User, CourseInformation} = require('../models/temp_user');
-const {User, CourseInformation} = require('../models/temp_user');
+const {User, CourseInformation, ProgressTracking, Note, FavoriteCourse} = require('../models/temp_user');
 
 module.exports = {
     getName: (email, callback) => {
