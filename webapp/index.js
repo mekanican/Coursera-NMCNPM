@@ -63,20 +63,56 @@ function InitMongoDBInstance() {
 					console.log(err);
 				}
 				else { 
-					if (names.length == 0)
+					//if (names.length == 0)
 					{ 
 						console.log ("database is empty, initializing database with data");
 						const first_start_up = require('./controllers/temp_user.controller');
-						first_start_up.createEmailName('notabotbytheway@gmail.com', 'CNPM', 'Role#1', (name, email) => {
+						first_start_up.createEmailName(1, 'notabotbytheway@gmail.com', 'CNPM', 'Role#1', (name, email) => {
 							console.log(name, email);
 						});
-						first_start_up.createCourse (1, "NMCNPM", "Description, ah yes",null,4.5,2,null,null,null);
-						first_start_up.createCourse (2, "DMCS", "Mon thu 2",null,1,3,null,null,null);
+						first_start_up.createEmailName(2, 'bot@gmail.com', 'DMCS', 'Role#2', (name, email) => {
+							console.log(name, email);
+						});
+						first_start_up.createEmailName(3, 'bot3@gmail.com', 'DMCS', 'Role#3', (name, email) => {
+							console.log(name, email);
+						});
+						first_start_up.createEmailName(4, 'bot4@gmail.com', 'DMCS', 'Role#4', (name, email) => {
+							console.log(name, email);
+						});
+						first_start_up.createCourse (1, "NMCNPM", "Description, ah yes",null,4.5,2,null,null,(err)=>
+						{
+							if (err!=1)
+							{console.log ("createCourse Error"); console.log(err);};
+						});
+						first_start_up.createCourse (2, "DMCS", "Mon thu 2",null,1,3,null,null,(err)=>
+						{
+							if (err!=1)
+							{console.log ("createCourse Error"); console.log(err);};
+						});
+						first_start_up.createCourse (3, "Course_nay_deleted", "Mon thu 3",null,1,4,null,null,(err)=>
+						{
+							if (err!=1)
+							{console.log ("createCourse Error"); console.log(err);};
+						});;
+						first_start_up.deleteCourse (3,(err)=>
+						{
+							if (err!=1)
+							{console.log ("DeleteCourse Error"); console.log(err);};
+						});
 						//first_start_up.createCourse (null, "courseNameIsRequired", "Tao course co ID null de khong course khac co id null duoc, ID la unique",null,null,-1,null,null,null);
+						first_start_up.createProgressTracking (1, 1, 2,2,2);
+						first_start_up.createProgressTracking (2, 1, 3,2,1);
+						first_start_up.createProgressTracking (3, 2, 4,4,2);
 						setTimeout(function(){
 							console.log ("database should be filled with data now");
+							console.log ("test populate de kiem tra reference:");
+							first_start_up.getProgressTracking(2,(err)=>
+								{ 
+									if (err!=1)
+									{console.log ("TestProgressTracking Error"); console.log(err);};
+								}); 
 						  //logic
-						},3000); 
+						},5000); 
 					};
 				}
 			});
