@@ -63,7 +63,7 @@ function InitMongoDBInstance() {
 					console.log(err);
 				}
 				else { 
-					//if (names.length == 0)
+					if (names.length == 0)
 					{ 
 						console.log ("database is empty, initializing database with data");
 						const first_start_up = require('./controllers/temp_user.controller');
