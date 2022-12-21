@@ -20,6 +20,10 @@ const get = (teacherId, courseId, callback) => {
 }
 
 const create = (teacherId, courseId, callback) => {
+  // TODO: assert that teacherId and courseId should be validated
+  // User must be in Lecturer role
+  // User and Course must not be deleted (hard or soft)
+
   CourseTeacherAuthorization.create({
     "TeacherId": teacherId,
     "CourseId": courseId
@@ -33,7 +37,7 @@ const create = (teacherId, courseId, callback) => {
   )
 }
 
-//TODO: create an update query
+// TODO: create an update query
 
 const deleteHard = (authorizationId, callback) => {
   CourseTeacherAuthorization.findByIdAndDelete(authorizationId).
@@ -58,7 +62,51 @@ const findCoursesByTeacherId = (teacherId, callback) => {
     }
   ).then(
     (foundAuthorization) => {
-      console.log(foundAuthorization)
+      let listQueries = []
+      let listCourses = []
+
+      for (let authorization of foundAuthorization) {
+          listQueries.push(authorization.populate('CourseId'))
+      }
+
+      Promise.all(listQueries).then(
+        docs => {
+          for (let doc of docs) {
+            listCourses.push(doc.CourseId)
+          }
+
+          callback(null, listCourses) 
+        }
+      )
+    },
+    (error) => {
+      callback(error)
+    }
+  )
+}
+
+const findTeachersByCourseId = (courseId, callback) => {
+  CourseTeacherAuthorization.find(
+    {
+      "CourseId": courseId
+    }
+  ).then(foundAuthorization => {
+    let listQueries = []
+    let listTeachers = []
+
+      for (let authorization of foundAuthorization) {
+          listQueries.push(authorization.populate('TeacherId'))
+      }
+
+      Promise.all(listQueries).then(
+        docs => {
+          for (let doc of docs) {
+            listTeachers.push(doc.TeacherId)
+          }
+
+          callback(null, listTeachers) 
+        }
+      )
     },
     (error) => {
       callback(error)
