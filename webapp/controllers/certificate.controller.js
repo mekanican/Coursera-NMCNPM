@@ -1,11 +1,10 @@
 const asyncHandler = require('express-async-handler');
-const { default: mongoose } = require('mongoose');
 
 // Declare model
 const {Certificate} = require('../models/certificate');
 
-const get = (async (userId, courseId, callback) => {
-  await Certificate.findOne(
+const get = (userId, courseId, callback) => {
+  Certificate.findOne(
     {
       "UserId": userId,
       "CourseId": courseId,
@@ -22,10 +21,10 @@ const get = (async (userId, courseId, callback) => {
       return callback(error, null);
     }
   )
-})
+}
 
-const create = (async (userId, courseId, certificateImage, callback) => {
-  await Certificate.create({
+const create = (userId, courseId, certificateImage, callback) => {
+  Certificate.create({
     "DateComplete": Date.now(),
     "UserId": userId,
     "CourseId": courseId,
@@ -39,9 +38,9 @@ const create = (async (userId, courseId, certificateImage, callback) => {
       callback(error)
     }
   )
-})
+}
 
-const updateImage = (async (userId, courseId, image, callback) => {
+const updateImage = (userId, courseId, image, callback) => {
   var callbackInGet = (error, certificate) => {
     if (!error) {
       certificate.update(
@@ -55,11 +54,11 @@ const updateImage = (async (userId, courseId, image, callback) => {
     }
   }
 
-  await get(userId, courseId, callbackInGet)
-})
+  get(userId, courseId, callbackInGet)
+}
 
-const deleteSoft = (async (certificateId, callback) => {
-  await Certificate.findOne(
+const deleteSoft = (certificateId, callback) => {
+  Certificate.findOne(
     {
       "CertificateId": certificateId,
       "IsDeleted": false
@@ -77,7 +76,7 @@ const deleteSoft = (async (certificateId, callback) => {
       return callback(error)
     }
   )
-})
+}
 
 module.exports = {
   get,

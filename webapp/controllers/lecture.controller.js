@@ -1,7 +1,7 @@
 const {Lecture} = require('../models/lecture')
 
-const get = async (lectureId, callback) => {
-    await Lecture.findOne(
+const get = (lectureId, callback) => {
+    Lecture.findOne(
         {
             "_id": lectureId,
             "IsDeleted": false
@@ -20,8 +20,8 @@ const get = async (lectureId, callback) => {
     )
 }
 
-const create = async (sectionId, title, content, callback) => {
-    await Lecture.create({
+const create = (sectionId, title, content, callback) => {
+    Lecture.create({
         "SectionId": sectionId,
         "Title": title,
         "LectureContent": content,
@@ -42,7 +42,7 @@ const create = async (sectionId, title, content, callback) => {
     )
 }
 
-const updateContent = async (lectureId, content, callback) => {
+const updateContent = (lectureId, content, callback) => {
     var callbackInGet = (error, lecture) => {
         if (!error) {
           lecture.LectureContent = content
@@ -53,11 +53,11 @@ const updateContent = async (lectureId, content, callback) => {
           callback(error)
         }
       }
-    await get(lectureId, callbackInGet)
+    get(lectureId, callbackInGet)
 }
 
-const deleteSoftBySectionId = async (sectionId, callback) => {
-    await Lecture.findOne(
+const deleteSoftBySectionId = (sectionId, callback) => {
+    Lecture.findOne(
         {
             "SectionId": sectionId,
             "IsDeleted": false

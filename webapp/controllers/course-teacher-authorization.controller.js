@@ -1,7 +1,7 @@
 const {CourseTeacherAuthorization} = require('../models/course-teacher-authorization');
 
-const get = (async (teacherId, courseId, callback) => {
-  await CourseTeacherAuthorization.findOne(
+const get = (teacherId, courseId, callback) => {
+  CourseTeacherAuthorization.findOne(
     {
       "TeacherId": teacherId,
       "CourseId": courseId
@@ -17,10 +17,10 @@ const get = (async (teacherId, courseId, callback) => {
       return callback(error, null);
     }
   )
-})
+}
 
-const create = (async (teacherId, courseId, callback) => {
-  await CourseTeacherAuthorization.create({
+const create = (teacherId, courseId, callback) => {
+  CourseTeacherAuthorization.create({
     "TeacherId": teacherId,
     "CourseId": courseId
   }).then(
@@ -31,12 +31,12 @@ const create = (async (teacherId, courseId, callback) => {
       callback(error)
     }
   )
-})
+}
 
 //TODO: create an update query
 
-const deleteHard = (async (authorizationId, callback) => {
-  await CourseTeacherAuthorization.findByIdAndDelete(authorizationId).
+const deleteHard = (authorizationId, callback) => {
+  CourseTeacherAuthorization.findByIdAndDelete(authorizationId).
   then(
     (foundAuthorization) => {
       if (!foundAuthorization) {
@@ -49,10 +49,26 @@ const deleteHard = (async (authorizationId, callback) => {
       return callback(error)
     }
   )
-})
+}
+
+const findCoursesByTeacherId = (teacherId, callback) => {
+  CourseTeacherAuthorization.find(
+    {
+      "TeacherId": teacherId
+    }
+  ).then(
+    (foundAuthorization) => {
+      console.log(foundAuthorization)
+    },
+    (error) => {
+      callback(error)
+    }
+  )
+}
 
 module.exports = {
   get,
   create,
-  deleteHard
+  deleteHard,
+  findCoursesByTeacherId
 }

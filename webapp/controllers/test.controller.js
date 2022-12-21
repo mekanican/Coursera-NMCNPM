@@ -1,7 +1,7 @@
 const {Test} = require('../models/test')
 
-const get = async (testId, callback) => {
-    await Test.findOne(
+const get = (testId, callback) => {
+    Test.findOne(
         {
             "_id": testId,
             "IsDeleted": false
@@ -20,8 +20,8 @@ const get = async (testId, callback) => {
     )
 }
 
-const create = async (sectionId, title, callback) => {
-    await Test.create({
+const create = (sectionId, title, callback) => {
+    Test.create({
         "SectionId": sectionId,
         "Title": title,
         "DateCreated": Date.now(),
@@ -43,8 +43,8 @@ const create = async (sectionId, title, callback) => {
 
 //TODO: create an update query
 
-const deleteSoftBySectionId = async (sectionId, callback) => {
-    await Test.findOne(
+const deleteSoftBySectionId = (sectionId, callback) => {
+    Test.findOne(
         {
             "SectionId": sectionId,
             "IsDeleted": false

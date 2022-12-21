@@ -4,8 +4,8 @@ const {CourseSection} = require('../models/course-section')
 const {create: createTest, deleteSoftBySectionId: deleteSoftTest} = require('./test.controller')
 const {create: createLecture, deleteSoftBySectionId: deleteSoftLecture} = require('./lecture.controller')
 
-const get = async (sectionId, callback) => {
-    await CourseSection.findOne(
+const get = (sectionId, callback) => {
+    CourseSection.findOne(
         {
             "_id": sectionId,
             "IsDeleted": false
@@ -24,8 +24,8 @@ const get = async (sectionId, callback) => {
     )
 }
 
-const create = async (courseId, type, sectionOrder, creatorAuthorizationId, callback) => {
-    await CourseSection.create({
+const create = (courseId, type, sectionOrder, creatorAuthorizationId, callback) => {
+    CourseSection.create({
         "CourseId": courseId,
         "Type": type,
         "SectionOrder": sectionOrder,
@@ -61,7 +61,7 @@ const create = async (courseId, type, sectionOrder, creatorAuthorizationId, call
     )
 }
 
-const updateOrder = async (sectionId, sectionOrder, callback) => {
+const updateOrder = (sectionId, sectionOrder, callback) => {
     var callbackInGet = (error, section) => {
         if (!error) {
           section.SectionOrder = sectionOrder
@@ -72,11 +72,11 @@ const updateOrder = async (sectionId, sectionOrder, callback) => {
           callback(error)
         }
       }
-    await get(sectionId, callbackInGet)
+    get(sectionId, callbackInGet)
 }
 
-const deleteSoft = async (sectionId, callback) => {
-    await CourseSection.findOne(
+const deleteSoft = (sectionId, callback) => {
+    CourseSection.findOne(
         {
             "_id": sectionId,
             "IsDeleted": false
