@@ -118,5 +118,6 @@ module.exports = {
   get,
   create,
   deleteHard,
-  findCoursesByTeacherId
+  findCoursesByTeacherId,
+  findTeachersByCourseId
 }
