@@ -32,11 +32,15 @@ const courseSection = mongoose.Schema(
         IsDeleted: {
             type: Boolean,
             default: false
+        },
+        DeleteOn: {
+            type: Date,
+            default: null
         }
     }, { collection: 'CourseSection' }
 )
 
-courseSection.index({CourseId: 1, SectionOrder: 1}, {unique: true})
+courseSection.index({CourseId: 1, SectionOrder: 1, DeleteOn: 1}, {unique: true})
 
 module.exports = {
     CourseSection: mongoose.model('CourseSection', courseSection)

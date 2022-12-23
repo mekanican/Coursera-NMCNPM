@@ -1,8 +1,16 @@
 const mongoose = require('mongoose')
 
 const {CourseSection} = require('../models/course-section')
-const {create: createTest, deleteSoftBySectionId: deleteSoftTest} = require('./test.controller')
-const {create: createLecture, deleteSoftBySectionId: deleteSoftLecture} = require('./lecture.controller')
+const {
+    findBySectionId: findTest,
+    create: createTest, 
+    deleteSoftBySectionId: deleteSoftTest
+} = require('./test.controller')
+const {
+    findBySectionId: findLecture,
+    create: createLecture, 
+    deleteSoftBySectionId: deleteSoftLecture
+} = require('./lecture.controller')
 
 /**
  * @callback returnCallback
@@ -89,18 +97,24 @@ const create = (courseId, type, sectionOrder, creatorAuthorizationId, callback) 
 const updateOrder = (sectionId, sectionOrder, callback) => {
     var callbackInGet = (error, section) => {
         if (!error) {
-          section.SectionOrder = sectionOrder
-          section.LastModified = Date.now()
-          section.save()
-          callback(null, section)
+            section.SectionOrder = sectionOrder
+            section.LastModified = Date.now()
+            section.save().then(
+                (savedSection) => {
+                    callback(null, savedSection)
+                },
+                (newError) => {
+                    callback(newError)
+                }
+            )
         } else {
           callback(error)
-        }
+        } 
       }
     get(sectionId, callbackInGet)
-}
+} 
 
-/**
+/** 
  * Soft-delete the section.
  * @param {ObjectId} sectionId 
  * @param {returnCallback} callback 
@@ -118,7 +132,15 @@ const deleteSoft = (sectionId, callback) => {
             } else {
                 courseSection.IsDeleted = true
                 courseSection.LastModified = Date.now()
-                courseSection.save()
+                courseSection.DeleteOn = Date.now()
+                courseSection.save().then(
+                    (savedSection) => {
+                        callback(null, savedSection)
+                    },
+                    (error) => {
+                        callback(error)
+                    }
+                )
 
                 if (courseSection.Type == "Test") {
                     deleteSoftTest(
@@ -140,9 +162,76 @@ const deleteSoft = (sectionId, callback) => {
     )
 }
 
+const findAllByCourseId = (courseId, callback) => {
+    CourseSection.find(
+        {
+            "CourseId": courseId
+        }
+    ).then(
+        (sections) => {
+            var listQueries = []
+            var listObjects = []
+            
+            const createObject = (object) => {
+                return {
+                    "CourseId": courseId,
+                    "SectionId": object.SectionId,
+                    "Title": object.Title
+                }
+            }
+
+            const getTestCallback = (error, object) => {
+                if (error) {
+                    callback(error)
+                } else {
+                    returnedObject = createObject(object)
+                    returnedObject.Type = "Test"
+                    listObjects.push(returnedObject)
+                }
+            }
+
+            const getLectureCallback = (error, object) => {
+                if (error) {
+                    callback(error)
+                } else {
+                    returnedObject = createObject(object)
+                    returnedObject.Type = "Lecture"
+                    listObjects.push(returnedObject)
+                }
+            }
+            
+            for (let section of sections) {
+                if (section.Type === 'Test') {
+                    listQueries.push( 
+                        findTest(section._id, getTestCallback)
+                    )
+                } else if (section.Type === 'Lecture') {
+                    listQueries.push(
+                       findLecture(section._id, getLectureCallback)
+                    )
+                }
+            }
+        
+            Promise.all(listQueries).then(
+                (objects) => {
+                    callback(null, listObjects)
+                },
+                (error) => {
+                    callback(error)
+                }
+            )
+    
+        },
+        (error) => {
+            callback(error)
+        }
+    )
+}
+
 module.exports = {
     get,
     create,
     updateOrder,
-    deleteSoft
+    deleteSoft,
+    findAllByCourseId
 }
