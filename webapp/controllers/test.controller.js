@@ -66,8 +66,29 @@ const deleteSoftBySectionId = (sectionId, callback) => {
     )
 }
 
+const findBySectionId = async (sectionId, callback) => {
+    await Test.findOne(
+        {
+            "SectionId": sectionId,
+            "IsDeleted": false
+        }
+    ).then(
+        (test) => {
+            if (!test) {
+                callback(`Section ${sectionId.toString()} does not exist`, null)
+            } else {
+                callback(null, test)
+            }
+        },
+        (error) => {
+            callback(error)
+        }
+    )
+}
+
 module.exports = {
     get,
     create,
-    deleteSoftBySectionId
+    deleteSoftBySectionId,
+    findBySectionId
 }
