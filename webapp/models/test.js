@@ -4,6 +4,7 @@ const test = mongoose.Schema(
     {
         SectionId: {
             type: mongoose.Schema.Types.ObjectId,
+            index: true,
             unique: true,
             ref: 'CourseSection',
             required: true
