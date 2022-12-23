@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 
 const courseSection = mongoose.Schema(
     {
+        CourseId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "CourseInformation",
+            required: true
+        },
         SectionOrder: {
             type: Number,
             required: true
@@ -31,6 +36,7 @@ const courseSection = mongoose.Schema(
     }, { collection: 'CourseSection' }
 )
 
+courseSection.index({CourseId: 1, SectionOrder: 1}, {unique: true})
 
 module.exports = {
     CourseSection: mongoose.model('CourseSection', courseSection)
