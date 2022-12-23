@@ -4,6 +4,17 @@ const {CourseSection} = require('../models/course-section')
 const {create: createTest, deleteSoftBySectionId: deleteSoftTest} = require('./test.controller')
 const {create: createLecture, deleteSoftBySectionId: deleteSoftLecture} = require('./lecture.controller')
 
+/**
+ * @callback returnCallback
+ * @param {String} error - Error returned in type of string.
+ * @param {Object} object - Object returned after execution. 
+ */
+
+/**
+ * Get course section by Object id.
+ * @param {ObjectId} sectionId - sectionId is _id field got from CourseSection.
+ * @param {returnCallback} callback
+ */
 const get = (sectionId, callback) => {
     CourseSection.findOne(
         {
@@ -24,6 +35,14 @@ const get = (sectionId, callback) => {
     )
 }
 
+/**
+ * Create a section in a course.
+ * @param {ObjectId} courseId - CourseId is _id of the course in CourseInformation Schema. 
+ * @param {string} type - Type must exist in the set of {"Lecture" or "Test"}.
+ * @param {int} sectionOrder - Order of the section. It should be noted that two arbitrary sections in the same course cannot have same order. 
+ * @param {ObjectId} creatorAuthorizationId - AuthorizationId of creator is got from CourseTeacherAuthorization Schema. 
+ * @param {returnCallback} callback 
+ */
 const create = (courseId, type, sectionOrder, creatorAuthorizationId, callback) => {
     CourseSection.create({
         "CourseId": courseId,
@@ -61,6 +80,12 @@ const create = (courseId, type, sectionOrder, creatorAuthorizationId, callback) 
     )
 }
 
+/**
+ * Update order of a section.
+ * @param {ObjectId} sectionId  
+ * @param {int} sectionOrder - New order of a section.
+ * @param {returnCallback} callback 
+ */
 const updateOrder = (sectionId, sectionOrder, callback) => {
     var callbackInGet = (error, section) => {
         if (!error) {
@@ -75,6 +100,11 @@ const updateOrder = (sectionId, sectionOrder, callback) => {
     get(sectionId, callbackInGet)
 }
 
+/**
+ * Soft-delete the section.
+ * @param {ObjectId} sectionId 
+ * @param {returnCallback} callback 
+ */
 const deleteSoft = (sectionId, callback) => {
     CourseSection.findOne(
         {

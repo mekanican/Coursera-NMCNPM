@@ -1,8 +1,19 @@
 const asyncHandler = require('express-async-handler');
 
-// Declare model
 const {Certificate} = require('../models/certificate');
+/**
+ * @callback returnCallback
+ * @param {String} error - Error returned in type of string.
+ * @param {Object} object - Object returned after execution. 
+ */
 
+
+/**
+ * Get certificate through UserId and CourseId
+ * @param {ObjectId} userId  - UserId is _id field got from User Schema.
+ * @param {ObjectId} courseId - CourseId is _id field got from Course Schema.
+ * @param {returnCallback} callback 
+ */
 const get = (userId, courseId, callback) => {
   Certificate.findOne(
     {
@@ -23,6 +34,13 @@ const get = (userId, courseId, callback) => {
   )
 }
 
+/**
+ * Create a certificate document. It is noted that the certificateImage is a string of 64-based encoded image.
+ * @param {ObjectId} userId  - UserId is _id field got from User Schema.
+ * @param {ObjectID} courseId - CourseId is _id field got from Course Schema.
+ * @param {string} certificateImage - A string of 64-based encoded image.
+ * @param {returnCallback} callback 
+ */
 const create = (userId, courseId, certificateImage, callback) => {
   Certificate.create({
     "DateComplete": Date.now(),
@@ -40,6 +58,13 @@ const create = (userId, courseId, certificateImage, callback) => {
   )
 }
 
+/**
+ * Update image of certificate
+ * @param {ObjectId} userId  - UserId is _id field got from User Schema.
+ * @param {ObjectID} courseId - CourseId is _id field got from Course Schema.
+ * @param {string} image - A string of new 64-based encoded image.
+ * @param {returnCallback} callback 
+ */
 const updateImage = (userId, courseId, image, callback) => {
   var callbackInGet = (error, certificate) => {
     if (!error) {
@@ -57,10 +82,15 @@ const updateImage = (userId, courseId, image, callback) => {
   get(userId, courseId, callbackInGet)
 }
 
+/**
+ * Soft-delete the certificate.
+ * @param {ObjectId} certificateId - Certificate _id.
+ * @param {returnCallback} callback 
+ */
 const deleteSoft = (certificateId, callback) => {
   Certificate.findOne(
     {
-      "CertificateId": certificateId,
+      "_id": certificateId,
       "IsDeleted": false
     }).then(
     (foundCertificate) => {
