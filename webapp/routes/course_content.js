@@ -31,24 +31,76 @@ const data = {
     }
 };
 
-router.get("/course_content", jwt_auth.authorization, (req, res) => {
-    console.log(req.query.id);
-    if (data.hasOwnProperty(req.query.id)) {
-        let posSec = -1;
-        let posSub = -1;
-        if (req.query.sec && req.query.sub) {
-            let a = parseInt(req.query.sec);
-            let b = parseInt(req.query.sub);
-            if (0 <= a && a < data[req.query.id].sections.length 
-                && 0 <= b && b < data[req.query.id].sections[a].subsections.length) {
-                    posSec = a;
-                    posSub = b;
-                }
-        }
-        res.render('course_content', {data: data[req.query.id], posSec: posSec, posSub: posSub});
+const data2 = {
+    "123456": {
+        sections: [
+            {
+                name: "Nhung nguyen ly co ban cua chu nghia mac lenin",
+                src: "/course-data/abcxyz",
+                id: "vid_1",
+            },
+            {
+                name: "A",
+                src: "",
+                id: "vid_2",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_3",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_4",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_5",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_6",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_7",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_8",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_9",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_10",
+            },
+            {
+                name: "B",
+                src: "/course-data/abcxyz",
+                id: "vid_11",
+            }
+        ]
+    }
+}
+
+router.get("/course_content/:id", jwt_auth.authorization, (req, res) => {
+    if (data.hasOwnProperty(req.params.id)) {
+        res.render('play-list', {data: data2[req.params.id]});
     }
     else
         res.status(404);
 })
+
+// API Related for course content
 
 module.exports = router

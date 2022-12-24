@@ -12,6 +12,10 @@ function randomString(length) {
     return result;
 }
 
+/**
+ * 
+ * @returns Random path in course-data (for video files)
+ */
 function getRandomPath() {
     const baseDataPath = '/course-data/';
     return baseDataPath + randomString(20);
@@ -21,6 +25,11 @@ function getExtensionFromPath(path) {
     return path.split('.').pop();
 }
 
+/**
+ * 
+ * @param {String} origPath - original file's path (usually in temp)
+ * @returns New path with randomized name in course-data (for other files)
+ */
 function getRandomPathFromFile(origPath) {
     let ext = getExtensionFromPath(origPath);
     let newPath = getRandomPath() + '.' + ext;
