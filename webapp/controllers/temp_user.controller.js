@@ -1,9 +1,12 @@
-//const {User, CourseInformation} = require('../models/temp_user');
-const {User, CourseInformation, ProgressTracking, Note, FavoriteCourse} = require('../models/temp_user');
+const {User} = require('../models/user')
+const {CourseInformation} = require('../models/course-information')
+const {ProgressTracking} = require('../models/progress-tracking')
+const {Note} = require('../models/note')
+const {FavoriteCourse} = require('../models/favorite-course')
 
 module.exports = {
     getName: (email, callback) => {
-        User.findOne({ email: email }, 'fullname').then((returnObject, err) => {
+        User.findOne({ 'Email': email }, 'FullName').then((returnObject, err) => {
             if (err) {
                 callback("Cannot query", null); // better callback
             }
@@ -11,112 +14,143 @@ module.exports = {
             callback(null, returnObject);
         })
     }, 
-    createEmailName: (userid, email, name, role, callback) => {
+    createEmailName: (email, name, role, callback) => {
         User.create({
-            userid: userid,
-            email: email,
-            fullname: name,
-            role: role,
-			gender: true
+            'Email': email,
+            'FullName': name,
+            'Role': role
         }).then(err => {
-            if (!err) {
+            if (err) { // todo
                 callback(err);
             } else {
-                callback(userid, email, name, role);
+                callback(email, name, role);
             }
         })
     },
-	createCourse: (courseid, coursename, description, tag, rating, creatorid, datecreated, lastmodified, callback) => {
+	createCourse: (courseName, description, tag, rating, creatorId, callback) => {
         CourseInformation.create({
-            courseid:courseid, 
-			coursename:coursename, 
-			description:description, 
-			tag:tag, 
-			rating:rating, 
-			creatorid:creatorid, 
-			datecreated:datecreated, 
-			lastmodified:lastmodified,
-			isdeleted:false,
-        }).then(err => {
-            if (!err) {
-                callback(err);
-            } else { 
-                callback(courseid);
-            }
-        })
+			'CourseName':courseName, 
+			'Description':description, 
+			'Tag':tag, 
+			'Rating':rating, 
+			'CreatorId':creatorId, 
+			'DateCreated': Date.now(), 
+			'LastModified': Date.now(),
+			'IsDeleted': false
+        }).then(
+			(returnedObject) => {
+				if (returnedObject) {
+					callback(null, returnedObject)
+				} else {
+					callback('Course has not been created')
+				}
+			},
+			(error) => {
+				callback(error)
+			}
+		)
     },
-	deleteCourse: (deleted_courseid, callback) =>
+	deleteCourse: (courseId, callback) =>
 	{
 		//CourseInformation.dropIndex ({courseid:deleted_courseid})
-		CourseInformation.findOneAndUpdate({courseid:deleted_courseid}, {isdelete:true}, {new:true}).then(err => {
-            if (!err) {
-					callback(err);
-            } else {  
-                //callback && callback(deleted_courseid);
-            }
-        })
+		CourseInformation.findOneAndUpdate(
+			{
+				'CourseId': courseId,
+				'IsDeleted': false
+			}, 
+			{
+				'IsDeleted' :true
+			}, 
+			{
+				new:true
+			}).then(
+				(returnedObject) => {
+					if (returnedObject) {
+						callback(null, returnedObject)
+					} else {
+						callback(`Course ${courseId.toString()} cannot be found`)
+					}
+				},
+				(error) => {
+					callback(error)
+				}
+			)
 	},
-	createProgressTracking: (progressid, userid, courseid, totalsectionfinished, streak, callback)=>
+	createProgressTracking: (userId, courseId, totalSectionFinished, streak, callback)=>
 	{
 		ProgressTracking.create(
-		{ 
-			progressid:progressid, 
-			userid:userid, 
-			courseid:courseid, 
-			totalsectionfinished:totalsectionfinished, 
-			streak:streak
-		}).then(err => {
-            if (!err) {
-                callback(err);
-            } else {
-                //	callback(courseid);
-            }
-        })
+		{
+			'UserId':userId, 
+			'CourseId':courseId, 
+			'TotalSectionFinished':totalSectionFinished, 
+			'Streak':streak
+		}).then(
+			(returnedObject) => {
+				if (returnedObject) {
+					callback(returnedObject)
+				} else {
+					callback('Progress has not been created')
+				}
+			},
+			(error) => {
+				callback(error)
+			}
+		)
     }, 
-	getProgressTracking: (progressid, callback)=>
+	getProgressTracking: (progressId, callback)=>
 	{
-		ProgressTracking.findOne({progressid:progressid}).populate('user').
-		exec(function (err, yes) {
-			if (err)
+		ProgressTracking.findOne(
 			{
+				'ProgressId': progressId
+			})
+		.populate('User')
+		.exec(function (err, yes) {
+			if (err) {
 				callback(err);
 			}
-			else
-			{
-				console.log('TestProgressTracking: ', yes);
-			};
-		  });
+			else {
+				callback(null, yes)
+			}
+		  })
 	},
-	createFavoriteCourse: (favoritecourseid, userid, courseid)=>
+	createFavoriteCourse: (userId, courseId, callback) =>
 	{
 		FavoriteCourse.create(
 		{
-			favoritecourseid:favoritecourseid, 
-			userid:userid, 
-			courseid:courseid, 
-		}).then(err => {
-            if (!err) {
-                callback(err);
-            } else {
-                callback(favoritecourseid);
-            }
-        })
+			'UserId' : userId, 
+			'CourseId' : courseId
+		}).then(
+			(returnedObject) => {
+				if (returnedObject) {
+					callback(returnedObject)
+				} else {
+					callback('Favorite has not been created')
+				}
+			},
+			(error) => {
+				callback(error)
+			}
+		)
     }, 
-	createNote: (noteid, userid, lectureid, notecontent, datecreated, lastmodified) =>
+	createNote: (userId, lectureId, noteContent, callback) =>
 	{
 		Note.create ({
-			noteid:noteid, 
-			userid:userid, 
-			lectureid:lectureid, 
-			notecontent:notecontent, 
-			datecreated:datecreated, 
-			lastmodified:lastmodified
-		}).then(err => {
-            if (!err) {
-                callback(err);
-            } else {
-                callback(courseid);
-            }
-        })
+			'UserId' :userId, 
+			'LectureId': lectureId, 
+			'NoteContent': noteContent, 
+			'DateCreated': Date.now(), 
+			'LastModified': Date.now()
+		}).then(
+			(returnedObject) => {
+				if (returnedObject) {
+					callback(returnedObject)
+				} else {
+					callback('Note has not been created')
+				}
+			},
+			(error) => {
+				callback(error)
+			}
+		)
 	},
 } 

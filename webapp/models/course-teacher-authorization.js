@@ -15,6 +15,8 @@ const courseTeacherAuthorization = mongoose.Schema(
     }, { collection: 'CourseTeacherAuthorization' }
 )
 
+courseTeacherAuthorization.index({CourseId: 1, TeacherId: 1}, {unique: true})
+
 module.exports = {
     CourseTeacherAuthorization: mongoose.model('CourseTeacherAuthorization', courseTeacherAuthorization)
 }

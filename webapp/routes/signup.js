@@ -26,7 +26,7 @@ router.get('/signup', jwt_auth.authorization, (req, res, next) => {
     }
 
     // there's will be no 2 same email, so no need to handle special case here
-    user_controller.createEmailName(email, username, role, (_1, _2, _3, _4) => {});
+    user_controller.createEmailName(email, username, role, (_1, _2, _3) => {});
     
     // Now set the valid to true to actually authorized this user !
     let x = jwt_auth.loginHandle({ 
