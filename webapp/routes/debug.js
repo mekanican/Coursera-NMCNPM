@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {
   getGoals
-} = require('../controllers/certificate.controller');
+} = require('../controllers/debug.controller');
 
 router.route('/testget').get(getGoals);
 

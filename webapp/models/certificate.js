@@ -16,6 +16,10 @@ const certificate = mongoose.Schema(
         CertificateURI: {
             type: String,
             required: true
+        },
+        IsDeleted: {
+            type: Boolean,
+            default: false
         }
     }, { collection: 'Certificate'}
 )
