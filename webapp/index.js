@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose')
 const {User} = require('./models/user')
+const {CourseInformation} = require('./models/course-information');
+const {CourseSection} = require('./models/course-section');
+const {CourseTeacherAuthorization} = require('./models/course-teacher-authorization');
+const {Lecture} = require('./models/lecture');
 const app = express();
 const PORT = process.env.PORT || 12345
 const MONGO_USERNAME = process.env.MONGO_USERNAME
@@ -66,6 +70,9 @@ function InitMongoDBInstance() {
 				(object) => {
 					if (!object) {
 						f()
+					} else {
+						const Course = require('./models/course-information').CourseInformation;
+						Course.findOne({}).then(obj => console.log(obj));
 					}
 				}
 			)
@@ -79,38 +86,77 @@ function InitMongoDBInstance() {
     });
 }
 
-function f() {
+async function f() {
 	console.log ("database is empty, initializing database with data");
-	const first_start_up = require('./controllers/temp_user.controller');
-	first_start_up.createEmailName('notabotbytheway@gmail.com', 'CNPM', 'learner', (name, email) => {
-		console.log(name, email);
+
+	// User creation
+	let user1 = await User.create({
+		Role: "lecturer",
+		FullName: "Nghia",
+		Email: "boommerang73@gmail.com",
 	});
-	first_start_up.createEmailName('bot@gmail.com', 'DMCS', 'lecturer', (name, email) => {
-		console.log(name, email);
-	});
-	first_start_up.createEmailName('bot3@gmail.com', 'DMCS', 'learner', (name, email) => {
-		console.log(name, email);
-	});
-	first_start_up.createEmailName('bot4@gmail.com', 'DMCS', 'lecturer', (name, email) => {
-		console.log(name, email);
-	});
-	first_start_up.createCourse ("NMCNPM", "Description",null,4.5,new mongoose.Types.ObjectId(),(err, object)=>
-	{
-		if (err)
-		{console.log ("createCourse Error"); console.log(err);};
-	});
-	first_start_up.createCourse ("DMCS", "Mon thu 2",null,1,new mongoose.Types.ObjectId(),(err, object)=>
-	{
-		if (err)
-		{console.log ("createCourse Error"); console.log(err);};
-	});
-	first_start_up.createCourse("Course_nay_deleted", "Mon thu 3",null,1,new mongoose.Types.ObjectId(),(err)=>
-	{
-		if (err)
-		{console.log ("createCourse Error"); console.log(err);};
-	});;
-	
-	first_start_up.createProgressTracking (new mongoose.Types.ObjectId(), new mongoose.Types.ObjectId(),2,2, (error, object) => {});
-	first_start_up.createProgressTracking (new mongoose.Types.ObjectId(), new mongoose.Types.ObjectId(),2,1, (error, object) => {});
-	first_start_up.createProgressTracking (new mongoose.Types.ObjectId(), new mongoose.Types.ObjectId(),4,2, (error, object) => {});
+
+	let user2 = await User.create({
+		Role: "learner",
+		FullName: "BOT",
+		Email: "notabotbytheway@gmail.com",
+	})
+
+	console.log(user1)
+	console.log(user2)
+
+	// course creation
+	let course1 = await CourseInformation.create({
+		CourseName: "NMLT",
+		Description: "ABCXYZ",
+		CreatorId: user1._id
+	})
+
+	let course2 = await CourseInformation.create({
+		CourseName: "OOP",
+		Description: "123456",
+		CreatorId: user1._id
+	})
+
+	console.log(course1)
+	console.log(course2)
+
+	// Section creation
+
+	let auth1 = await CourseTeacherAuthorization.create({
+		CourseId: course1._id,
+		TeacherId: user1._id
+	})
+
+	let section1 = await CourseSection.create({
+		CourseId: course1._id,
+		SectionOrder: 1,
+		Type: "Lecture",
+		CreatorAuthorizationId: auth1._id,
+	})
+
+	let lecture1 = await Lecture.create({
+		SectionId: section1._id,
+		Title: "Nhung nguyen ly co ban v1",
+		LectureContent: "/course-data/abcxyz"
+	})
+
+	let section2 = await CourseSection.create({
+		CourseId: course1._id,
+		SectionOrder: 2,
+		Type: "Lecture",
+		CreatorAuthorizationId: auth1._id,
+	})
+
+	let lecture2 = await Lecture.create({
+		SectionId: section2._id,
+		Title: "Nhung nguyen ly co ban v2",
+		LectureContent: "/course-data/abcxyz"
+	})
+
+	console.log(auth1)
+	console.log(section1)
+	console.log(lecture1)
+	console.log(section2)
+	console.log(lecture2)
 }

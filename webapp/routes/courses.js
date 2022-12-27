@@ -5,9 +5,7 @@ const jwt_auth = require('../API/jwt_auth');
 const navbar_handle = require('../API/navbar_handle')
 const mongoose = require('mongoose'); 
 
-// setTimeout((() => {
-//  const collection  = mongoose.connection.db.collection("CourseInformation");
-//}), 2000)
+
 router.get('/courses/', jwt_auth.authorization, (req, res) => {
     let username = req.obj.name;
 	const collection  = mongoose.connection.db.collection("CourseInformation");
