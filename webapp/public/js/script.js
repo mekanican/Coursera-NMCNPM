@@ -11,11 +11,13 @@ AllLessons.innerHTML = `${allVideos.length} Lessons`;
 let musicIndex = 1;
 window.addEventListener("load", () => {
   // loadMusic(musicIndex);
-  playingNow();
-  loadVideo(musicIndex);
+  // playingNow();
+  // loadVideo(musicIndex);
+  $("#main-Video").remove();
+  initialize();
 });
 function playMusic() {
-  mainVideo.play();
+  // mainVideo.play();
   playlist.classList.add("active");
 }
 function loadMusic(indexNumb) {
@@ -23,31 +25,20 @@ function loadMusic(indexNumb) {
   videoTitle.innerHTML = `${indexNumb}. ${allVideos[indexNumb - 1].name}`;
 }
 
-for (let i = 0; i < allVideos.length; i++) {
-  let liTag = `<li li-index="${i + 1}" id="${allVideos[i].id}">
-      <div class="row">
-         <span>${i + 1}. ${allVideos[i].name}</span>
-      </div>
-   </li>`;
-  playlist.insertAdjacentHTML("beforeend", liTag);
-
-  // let liVideoDuration = ulTag.querySelector(`#${allVideos[i].id}`);
-  // let liVideoTag = ulTag.querySelector(`.${allVideos[i].id}`);
-
-  // liVideoTag.addEventListener("loadeddata", () => {
-  //   let videoDuration = liVideoTag.duration;
-  //   let totalMin = Math.floor(videoDuration / 60);
-  //   let totalSec = Math.floor(videoDuration % 60);
-  //   // if totalSec is less then 10 then add 0 at the beginging
-  //   totalSec < 10 ? (totalSec = "0" + totalSec) : totalSec;
-  //   liVideoDuration.innerText = `${totalMin}:${totalSec}`;
-  //   // adding t duration attribe which we'll use below
-  //   liVideoDuration.setAttribute("t-duration", `${totalMin}:${totalSec}`);
-  // });
+function initialize() {
+  for (let i = 0; i < allVideos.length; i++) {
+    let liTag = `<li li-index="${i + 1}" id="${allVideos[i].id}" onClick='clicked(this)'>
+        <div class="row">
+           <span>${i + 1}. ${allVideos[i].name}</span>
+        </div>
+     </li>`;
+    playlist.insertAdjacentHTML("beforeend", liTag);
+  }
 }
+
 // let's work on play particular song on click
-const allLiTags = playlist.querySelectorAll("li");
 function playingNow() {
+  const allLiTags = playlist.querySelectorAll("li");
   for (let j = 0; j < allVideos.length; j++) {
     if (allLiTags[j].classList.contains("playing")) {
       allLiTags[j].classList.remove("playing");
@@ -55,8 +46,6 @@ function playingNow() {
     if (allLiTags[j].getAttribute("li-index") == musicIndex) {
       allLiTags[j].classList.add("playing");
     }
-    // adding onclick attribute in all li tags
-    allLiTags[j].setAttribute("onclick", "clicked(this)");
   }
 }
 
@@ -67,7 +56,7 @@ function clicked(element) {
   console.log(id);
   musicIndex = getIndex;
   // loadMusic(musicIndex);
-  loadVideo(musicIndex);
+  loadVideo(musicIndex, id);
   playMusic();
   playingNow();
 }
@@ -98,15 +87,17 @@ function loadByLink(videoSrc) {
 }
 
 // Load music change
-function loadVideo(index) {
-  let videoLink = allVideos[index - 1].src;
-  let parent = $("#video_player");
-  
-  $("#main-Video").remove();
-  if (typeof videoLink != "undefined" && videoLink != "") {
-    parent.prepend("<video controls id=\"main-Video\" src=\"\"></video>")
-    mainVideo = document.querySelector("#main-Video");
-    loadByLink(videoLink);
-  }
-  videoTitle.innerHTML = `${index}. ${allVideos[index - 1].name}`;
+function loadVideo(index, id) {
+  $.getJSON('/lecture_content/Lecture/' + id, data => {
+    let videoLink = data.videoUrl;
+    let parent = $("#video_player");
+    
+    $("#main-Video").remove();
+    if (typeof videoLink != "undefined" && videoLink != "") {
+      parent.prepend("<video controls id=\"main-Video\" src=\"\"></video>")
+      mainVideo = document.querySelector("#main-Video");
+      loadByLink(videoLink);
+    }
+    videoTitle.innerHTML = `${index}. ${allVideos[index - 1].name}`;
+  })
 }

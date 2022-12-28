@@ -70,20 +70,31 @@ const data2 = {
 }
 
 router.get("/course_content/:id", jwt_auth.authorization, (req, res) => {
-    // CourseSectionController.findAllByCourseId(req.params.id, (err, obj) => {
-    //     if (err) {
-    //         console.log(err);
-    //         res.sendStatus(404);
-    //     } else {
-    //         console.log(obj);
-    //     }
-    // })
+    CourseSectionController.findAllByCourseId(req.params.id, async (err, obj) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(404);
+        } else {
+            console.log(obj);
+            obj = await obj.map(elem => {
+                return {
+                    name: elem.Title,
+                    id: elem.SectionId.toString(),
+                    type: elem.type,
+                    src: ""
+                }
+            })
+            res.render('play-list', {
+                data: obj
+            })
+        }
+    })
 
-    if (data2.hasOwnProperty(req.params.id)) {
-        res.render('play-list', {data: data2[req.params.id]});
-    }
-    else
-        res.sendStatus(404);
+    // if (data2.hasOwnProperty(req.params.id)) {
+    //     res.render('play-list', {data: data2[req.params.id]});
+    // }
+    // else
+    //     res.sendStatus(404);
 })
 
 router.get("/lecture_content/:type/:id", jwt_auth.authorization, (req, res) => {
