@@ -24,7 +24,7 @@ function loadMusic(indexNumb) {
 }
 
 for (let i = 0; i < allVideos.length; i++) {
-  let liTag = `<li li-index="${i + 1}">
+  let liTag = `<li li-index="${i + 1}" id="${allVideos[i].id}">
       <div class="row">
          <span>${i + 1}. ${allVideos[i].name}</span>
       </div>
@@ -63,6 +63,8 @@ function playingNow() {
 function clicked(element) {
   // getting li index of particular clicked li tag
   let getIndex = element.getAttribute("li-index");
+  let id = element.getAttribute("id")
+  console.log(id);
   musicIndex = getIndex;
   // loadMusic(musicIndex);
   loadVideo(musicIndex);
