@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const {Test} = require('./test')
+const {Lecture} = require('./lecture')
 
 const courseSection = mongoose.Schema(
     {
@@ -41,6 +43,31 @@ const courseSection = mongoose.Schema(
 )
 
 courseSection.index({CourseId: 1, SectionOrder: 1, DeleteOn: 1}, {unique: true})
+
+//TODO: Need improvement here
+courseSection.virtual('SectionInformation').
+    get( async function() {
+        if (this.Type == "Test") {
+            var section = Test
+        } else if (this.Type == "Lecture") {
+            var section = Lecture
+        }
+
+        var returnObject = undefined
+
+        await section.findOne({
+            "SectionId": this._id,
+            "IsDeleted": this.IsDeleted
+        }).then(
+            (object) => {
+                if (object) {
+                    returnObject = object
+                }
+            }
+        )
+
+        return returnObject
+    })
 
 module.exports = {
     CourseSection: mongoose.model('CourseSection', courseSection)
