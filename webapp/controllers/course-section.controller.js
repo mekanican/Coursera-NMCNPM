@@ -162,65 +162,47 @@ const deleteSoft = (sectionId, callback) => {
     )
 }
 
-const findAllByCourseId = (courseId, callback) => {
+/** 
+ * This function is a promise.
+ * Find all sections in the given course. The sections will be sorted by the SectionOrder.
+ * Each section includes {CourseId, SectionId, Title, Type, SectionOrder}. List of sections will be passed in callback.
+ * @param {ObjectId} courseId
+ * @param {returnCallback} callback 
+ */
+const findAllByCourseId = async (courseId, callback) => {
     CourseSection.find(
         {
             "CourseId": courseId
         }
-    ).then(
-        (sections) => {
-            var listQueries = []
-            var listObjects = []
-            
-            const createObject = (object) => {
+    ).
+    sort({SectionOrder: 1}).
+    then(
+        (sections) => {            
+            const createObject = async (object) => {
+                sectionInformation = await object.SectionInformation
                 return {
-                    "CourseId": courseId,
-                    "SectionId": object.SectionId,
-                    "Title": object.Title
-                }
-            }
-
-            const getTestCallback = (error, object) => {
-                if (error) {
-                    callback(error)
-                } else {
-                    returnedObject = createObject(object)
-                    returnedObject.Type = "Test"
-                    listObjects.push(returnedObject)
-                }
-            }
-
-            const getLectureCallback = (error, object) => {
-                if (error) {
-                    callback(error)
-                } else {
-                    returnedObject = createObject(object)
-                    returnedObject.Type = "Lecture"
-                    listObjects.push(returnedObject)
-                }
+                        "CourseId": object.CourseId,
+                        "SectionId": object._id,
+                        "Type": object.Type,
+                        "SectionOrder": object.SectionOrder,
+                        "Title": sectionInformation.Title
+                    }
             }
             
-            for (let section of sections) {
-                if (section.Type === 'Test') {
-                    listQueries.push( 
-                        findTest(section._id, getTestCallback)
-                    )
-                } else if (section.Type === 'Lecture') {
-                    listQueries.push(
-                       findLecture(section._id, getLectureCallback)
-                    )
+            const getSections = async () => {
+                listObjects = []
+
+                for (let section of sections) {
+                    listObjects.push(await createObject(section))
                 }
-            }
-        
-            Promise.all(listQueries).then(
-                (objects) => {
-                    callback(null, listObjects)
-                },
-                (error) => {
-                    callback(error)
+                return listObjects
+            }    
+
+            getSections().then(
+                (listObject) => {
+                    callback(null, listObject)
                 }
             )
-    
         },
         (error) => {
             callback(error)
