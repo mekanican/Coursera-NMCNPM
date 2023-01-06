@@ -1,4 +1,4 @@
-import fs from 'fs';
+const fs = require('fs');
 
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 function randomString(length) {
@@ -33,7 +33,7 @@ function getExtensionFromPath(path) {
 function getRandomPathFromFile(origPath) {
     let ext = getExtensionFromPath(origPath);
     let newPath = getRandomPath() + '.' + ext;
-    fs.copyFileSync(origPath, newPath, fs.constants.COPYFILE_EXCL);
+    fs.copyFileSync(origPath, '/home/node/app/public' + newPath, fs.constants.COPYFILE_EXCL);
     return newPath;
 }
 

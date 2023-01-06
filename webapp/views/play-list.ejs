@@ -29,6 +29,7 @@
           <ul class="playlist" id="playlist"></ul>
         </div>
       </div>
+      <button id="end">End course and get the certificate!</button> <!-- Testing purpose only -->
     </section>
 
     <!-- <script src="/video-list.js"></script> Referrence -->
@@ -37,6 +38,9 @@
     <script>
       var allVideos = [];
       allVideos = JSON.parse('<%- JSON.stringify(data) %>');
+      $("#end").click(() => {
+        location.href = '/certificate/' + '<%- courseID %>';
+      })
     </script>
     <script src="/js/script.js"></script>
   </body>

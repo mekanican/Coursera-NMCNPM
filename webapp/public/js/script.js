@@ -6,7 +6,7 @@ const AllLessons = document.querySelector(".AllLessons");
 const videoTitle = document.querySelector(".title"); 
 
 const ulTag = document.querySelector("ul");
-AllLessons.innerHTML = `${allVideos.length} Lessons`;
+// AllLessons.innerHTML = `${allVideos.length} Lessons`;
 
 let musicIndex = 1;
 window.addEventListener("load", () => {

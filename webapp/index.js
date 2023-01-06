@@ -46,6 +46,8 @@ app.use(require('./routes/courses'));
 app.use(require('./routes/logout'));
 // endpoint '/course_content/<id>'
 app.use(require('./routes/course_content'));
+// endpoint '/certificate/<id>'
+app.use(require('./routes/certificate'));
 
 // TODO: this debugging code needs cleaning after used
 app.use(require('./routes/debug'))
