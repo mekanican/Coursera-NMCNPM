@@ -1,26 +1,6 @@
-let baseURL = "http://127.0.0.1:8888";
-
-let classID;
 let no_of_lectures = 1;
 
 window.onload = () => {
-  var requestOptions = {
-    method: "GET",
-    mode: "cors",
-    credentials: "include",
-  };
-
-  fetch(`${baseURL}/user/check`, requestOptions)
-    .then((result) => result.json())
-    .then((res) => {
-      // console.log(res);
-      if (res.STATUS === 1);
-      else window.location = "signIn.html";
-      document.getElementById("name").innerHTML =
-        sessionStorage.getItem("name");
-    })
-    .catch((error) => console.log("error", error));
-
   let addUploadForm = document.getElementById("addUploadForm");
 
   addUploadForm.addEventListener("submit", (e) => {
@@ -48,30 +28,7 @@ window.onload = () => {
       data["lectures"].push(lecture);
     }
     console.log(data);
-
-    let requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(data),
-      mode: "cors",
-      credentials: "include",
-    };
-    fetch(`${baseURL}/test/add`, requestOptions)
-      .then((result) => result.json())
-      .then((res) => {
-        alert(res.MESSAGE);
-        if (res.STATUS === 1)
-          window.location = `classroom.html?classID=${classID}`;
-      });
   });
-
-  classID = window.location.search
-    .substring(1)
-    .split("&")
-    .map((ele) => ele.split("="))[0][1];
 };
 
 let menu_visible = false;
