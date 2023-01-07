@@ -5,6 +5,10 @@ const {Note} = require('../models/note')
 const {FavoriteCourse} = require('../models/favorite-course')
 
 module.exports = {
+	getNumberOfAccount: async (callback) => {
+		numDocs = await User.estimatedDocumentCount()
+		callback(null, numDocs)
+	},
     getName: (email, callback) => {
         User.findOne({ 'Email': email }, 'FullName').then((returnObject, err) => {
             if (err) {
