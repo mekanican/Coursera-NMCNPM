@@ -16,6 +16,9 @@ const lecture = mongoose.Schema(
         LectureContent: {
             type: String
         },
+        VideoURL: {
+            type: String
+        },
         DateCreated: {
             type: Date,
             default: Date.now

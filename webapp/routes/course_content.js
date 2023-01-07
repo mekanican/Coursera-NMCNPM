@@ -39,7 +39,18 @@ router.get("/lecture_content/:type/:id", jwt_auth.authorization, (req, res) => {
                 res.sendStatus(404);
             }
             res.json({
-                videoUrl: obj.LectureContent
+                videoUrl: obj.VideoURL,
+                content: obj.LectureContent,
+                files: [
+                    {
+                        name: "F1.txt",
+                        path: "/course-data/xx1xx.txt"
+                    },
+                    {
+                        name: "F2.txt",
+                        path: "/course-data/xxx2x.txt"
+                    },
+                ]
             });
         })
     } else {

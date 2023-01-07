@@ -3,7 +3,6 @@ var mainVideo = document.querySelector("#main-Video");
 const musicList = document.querySelector(".music-list");
 const playlist = document.getElementById("playlist");
 const AllLessons = document.querySelector(".AllLessons");
-const videoTitle = document.querySelector(".title"); 
 
 const ulTag = document.querySelector("ul");
 // AllLessons.innerHTML = `${allVideos.length} Lessons`;
@@ -13,7 +12,7 @@ window.addEventListener("load", () => {
   // loadMusic(musicIndex);
   // playingNow();
   // loadVideo(musicIndex);
-  $("#main-Video").remove();
+  $("#main-Video").css("visibility", "hidden");
   initialize();
 });
 function playMusic() {
@@ -22,7 +21,6 @@ function playMusic() {
 }
 function loadMusic(indexNumb) {
   mainVideo.src = `media/${allVideos[indexNumb - 1].src}.mp4`;
-  videoTitle.innerHTML = `${indexNumb}. ${allVideos[indexNumb - 1].name}`;
 }
 
 function initialize() {
@@ -88,16 +86,28 @@ function loadByLink(videoSrc) {
 
 // Load music change
 function loadVideo(index, id) {
+  $(".title").empty();
+  $(".desc").empty();
+  $("#filelist").empty();
   $.getJSON('/lecture_content/Lecture/' + id, data => {
     let videoLink = data.videoUrl;
     let parent = $("#video_player");
+    console.log(data)
+    if (data.content)
+      $(".desc").text(data.content);
+    for (let i = 0; i < data.files.length; i++) {
+        $("#filelist").append(`
+      <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <a href=${data.files[i].path} class="files" style="color: black;">${data.files[i].name}</a>
+        `);
+    }
     
-    $("#main-Video").remove();
+    
+    $("#main-Video").css("visibility", "hidden");
     if (typeof videoLink != "undefined" && videoLink != "") {
-      parent.prepend("<video controls id=\"main-Video\" src=\"\"></video>")
+      // parent.prepend("<video controls id=\"main-Video\" src=\"\"></video>")
+      $("#main-Video").css("visibility", "visible");
       mainVideo = document.querySelector("#main-Video");
       loadByLink(videoLink);
     }
-    videoTitle.innerHTML = `${index}. ${allVideos[index - 1].name}`;
   })
 }

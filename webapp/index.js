@@ -5,6 +5,7 @@ const {CourseInformation} = require('./models/course-information');
 const {CourseSection} = require('./models/course-section');
 const {CourseTeacherAuthorization} = require('./models/course-teacher-authorization');
 const {Lecture} = require('./models/lecture');
+const {Document} = require('./models/document');
 const app = express();
 const PORT = process.env.PORT || 12345
 const MONGO_USERNAME = process.env.MONGO_USERNAME
@@ -143,7 +144,8 @@ async function f() {
 	let lecture1 = await Lecture.create({
 		SectionId: section1._id,
 		Title: "Nhung nguyen ly co ban v1",
-		LectureContent: "/course-data/abcxyz"
+		VideoURL: "/course-data/abcxyz",
+		LectureContent: "noi dung cua phan 1"
 	})
 
 	let section2 = await CourseSection.create({
@@ -156,7 +158,8 @@ async function f() {
 	let lecture2 = await Lecture.create({
 		SectionId: section2._id,
 		Title: "Nhung nguyen ly co ban v2",
-		LectureContent: "/course-data/abcxyz"
+		VideoURL: "/course-data/abcxyz",
+		LectureContent: "noi dung cua phan 1"
 	})
 
 	console.log(auth1)
@@ -164,4 +167,22 @@ async function f() {
 	console.log(lecture1)
 	console.log(section2)
 	console.log(lecture2)
+
+
+	// Create example document
+	let doc1 = await Document.create({
+		CourseSectionId: section1._id,
+		UploaderId: auth1._id,
+		FileName: "F1.txt",
+		FilePath: "/course-data/xx1xx.txt"
+	});
+
+	let doc2 = await Document.create({
+		CourseSectionId: section1._id,
+		UploaderId: auth1._id,
+		FileName: "F2.txt",
+		FilePath: "/course-data/xxx2x.txt"
+	});
+	console.log(doc1);
+	console.log(doc2);
 }
